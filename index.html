@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <title>Chess</title>
+</head>
+
+<body>
+    <div class="jumbotron text-center">
+        <h1>My chess game</h1>
+    </div>
+    <div class="container">
+        <div class="container p-3 my-3 border">
+            <form>
+                <fieldset>
+                    <legend>Game settings:</legend>
+                    <div class="form-group">
+                        <label for="Uname">Playername:</label>
+                        <input type="text" name="Uname" id="Uname" class="form-control" placeholder="Username"
+                            autofocus>
+                    </div>
+                    <select class="form-control inputstl">
+                        <option value="Random">Random AI</option>
+                        <option value="MinMax">Minimax AI</option>
+                    </select>
+                    <br>
+                    <label class="radio-inline" for="white"><input type="radio" name="Color" id="white">White</label>
+                    <label class="radio-inline" for="black"><input type="radio" name="Color" id="black">Black</label>
+                    <br><br>
+                    <button type="submit" class="btn btn-default">Start</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
