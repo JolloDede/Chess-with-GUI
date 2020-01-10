@@ -5,37 +5,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="./css/bootstrap.min.css">
-    <title>Chess</title>
+    <title>Document</title>
 </head>
 
 <body>
-    <div class="jumbotron text-center">
-        <h1>My chess game</h1>
-    </div>
     <div class="container">
-        <div class="container p-3 my-3 border">
-            <form>
-                <fieldset>
-                    <legend>Game settings:</legend>
-                    <div class="form-group">
-                        <label for="Uname">Playername:</label>
-                        <input type="text" name="Uname" id="Uname" class="form-control" placeholder="Username"
-                            autofocus>
+        <header></header>
+        <main>
+            <noscript>
+                <h2>Enable Javascript!</h2>
+                <p>This HTML 5 app requires Javascript to run. Please check that Javascript is enabled in your browser.
+                </p>
+            </noscript>
+            <!-- Game -->
+            <div class="content" id="game-content" style="display: block;">
+                <div class="game-wrapper">
+
+                    <button type="button" id="back">Back</button>
+                    <button type="button" id="advance">Advance</button>
+                    <button type="button" id="sound">Sound</button>
+
+                    <div class="canvas-container">
+
+                        <div id="canvas-overlay-container">
+                            <div id="title">Chess game</div>
+                            <form action="" id="game-form" >
+                                <label for="Username"><input type="text" name="Username" placeholder="Username"></label>
+                                <select name="AI-Selection" id="AI-Selection">
+                                    <option value="Random">Random AI</option>
+                                    <option value="MiniMax">Minimax AI</option>
+                                </select>
+                                <label for="white"><input type="radio" name="Color" value="white">White</label>
+                                <label for="black"><input type="radio" name="Color" value="black">Black</label>
+                                <button type="submit" id="start">Start</button>
+                            </form>
+                        </div>
+
+                        <canvas id="myCanvas" width="800" height="800">
+                            <p>Canvas not supported</p>
+                        </canvas>
                     </div>
-                    <select class="form-control inputstl">
-                        <option value="Random">Random AI</option>
-                        <option value="MinMax">Minimax AI</option>
-                    </select>
-                    <br>
-                    <label class="radio-inline" for="white"><input type="radio" name="Color" id="white">White</label>
-                    <label class="radio-inline" for="black"><input type="radio" name="Color" id="black">Black</label>
-                    <br><br>
-                    <button type="submit" class="btn btn-default">Start</button>
-                </fieldset>
-            </form>
-        </div>
+
+                    <div class="controls" id="menu-buttons">
+                        <ul>
+                            <li><button id="newGame">New Game</button></li>
+                            <li><button id="introduction">Introduction</button></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="game-sitepanel">
+                    <div class="score-wrapper">
+                        <h2>Score</h2>
+                        <div class="scoreLeft">
+                            <p>White</p>
+                            <span id="scoreWhite"></span>
+                            <table id="capturedBlackPieces">
+                                <thead>
+                                    <tr>
+                                        <th>Amount</th>
+                                        <th>Img</th>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="scoreRight">
+                            <p>Black</p>
+                            <span id="scoreBlack"></span>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Amount</th>
+                                        <th>Img</th>
+                                        <th>Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer></footer>
     </div>
+    <script src="dist/bundle.js"></script>
 </body>
 
 </html>
