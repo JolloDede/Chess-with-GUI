@@ -1,7 +1,7 @@
 import { Board } from "./board";
 import Game from "./game";
 
-var board: Board;
+export var board: Board;
 export var images: HTMLImageElement[] = [];
 
 export class App{

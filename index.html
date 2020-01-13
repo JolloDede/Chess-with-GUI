@@ -29,16 +29,14 @@
 
                         <div id="canvas-overlay-container">
                             <div id="title">Chess game</div>
-                            <form action="" id="game-form" >
-                                <label for="Username"><input type="text" name="Username" placeholder="Username"></label>
-                                <select name="AI-Selection" id="AI-Selection">
-                                    <option value="Random">Random AI</option>
-                                    <option value="MiniMax">Minimax AI</option>
-                                </select>
-                                <label for="white"><input type="radio" name="Color" value="white">White</label>
-                                <label for="black"><input type="radio" name="Color" value="black">Black</label>
-                                <button type="submit" id="start">Start</button>
-                            </form>
+                            <label for="Username"><input type="text" name="Username" id="Username" placeholder="Username"></label>
+                            <select name="AI-Selection" id="AI-Selection">
+                                <option value="Random">Random AI</option>
+                                <option value="MiniMax">Minimax AI</option>
+                            </select>
+                            <label><input type="radio" name="Color" value="white">White</label>
+                            <label><input type="radio" name="Color" value="black">Black</label>
+                            <button id="start">Start</button>
                         </div>
 
                         <canvas id="myCanvas" width="800" height="800">
@@ -87,7 +85,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+
                                 </tbody>
                             </table>
                         </div>

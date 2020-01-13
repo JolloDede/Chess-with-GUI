@@ -1,6 +1,7 @@
 import { IVector, createVector} from './main';
 import { Board } from './board';
 import { mouseX, mouseY } from "./click";
+import { tileSize } from "./game";
 
 export abstract class Piece {
     matrixPosition: IVector;
@@ -11,11 +12,10 @@ export abstract class Piece {
     pic?: HTMLImageElement;
     movingThisPiece: boolean;
     value: number;
-    static tileSize: number;
     static images: HTMLImageElement[];
     constructor(x: number, y: number, isWhite: boolean, letter: string) {
         this.matrixPosition = createVector(x, y);
-        this.pixelPositon = createVector(x * Piece.tileSize + Piece.tileSize / 2, y * Piece.tileSize + Piece.tileSize / 2);
+        this.pixelPositon = createVector(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2 + 10);
 
         this.taken = false;
         this.white = isWhite;
@@ -52,7 +52,7 @@ export abstract class Piece {
             attacking.taken = true;
         }
         this.matrixPosition = createVector(x, y);
-        this.pixelPositon = createVector(x * Piece.tileSize + Piece.tileSize / 2, y * Piece.tileSize + Piece.tileSize / 2);
+        this.pixelPositon = createVector(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2 + 10);
     }
 
     withinBounds(x: number, y: number): boolean {
@@ -103,7 +103,7 @@ export abstract class Piece {
 
     setNewLocation(x: number, y: number) {
         this.matrixPosition = createVector(x, y);
-        this.pixelPositon = createVector(x * Piece.tileSize + Piece.tileSize / 2, y * Piece.tileSize + Piece.tileSize / 2);
+        this.pixelPositon = createVector(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2 + 10);
     }
 
     abstract generateMoves(board: Board): IVector[];
