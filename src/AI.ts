@@ -1,15 +1,15 @@
-import {Board} from "./board";
-import {Piece} from "./piece";
-import {IVector} from "./main";
+import { Board } from "./board";
+import { Piece } from "./piece";
+import { IVector } from "./main";
 
 class MyNode {
     value: number;
     childNodes: MyNode[];
-    parentNode: MyNode;
+    parentNode: MyNode | null;
     constructor() {
         this.value = 0;
         this.childNodes = [];
-        this.parentNode = new MyNode();
+        this.parentNode = null;
     }
 
     public addSubNode(value: MyNode): void {
@@ -21,24 +21,24 @@ class MyNode {
     }
 }
 
-export abstract class AI{
+export abstract class AI {
     protected pieces: Piece[];
     protected board: Board;
 
-    constructor(board: Board, whitePieces: boolean){
+    constructor(board: Board, whitePieces: boolean) {
         this.board = board;
         this.pieces = [];
-        if(whitePieces){
+        if (whitePieces) {
             this.pieces = board.whitePieces;
-        }else{
+        } else {
             this.pieces = board.blackPieces;
         }
     }
 
-    public makeMove(): void{}
+    public makeMove(): void { }
 }
 
-export class RandomAI extends AI{
+export class RandomAI extends AI {
 
     constructor(board: Board, whitePieces: boolean) {
         super(board, whitePieces);
@@ -173,7 +173,7 @@ function getPieceAbsoluteValue(piece: Piece): number {
 
 const maxDepth = 3;
 
-export class MinimaxAI extends AI{
+export class MinimaxAI extends AI {
     Nodes: MyNode[];
 
     rootNodeIndex: number;

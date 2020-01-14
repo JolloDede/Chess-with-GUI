@@ -1,7 +1,7 @@
 import { canvas, mouseX, mouseY } from "./click";
-import { board } from "./main";
+import { board, images } from "./main";
 import { Board } from "./board";
-import { Piece } from "./piece";
+import { Piece, Pawn, Knigth, Bishop, Rook, Queen, King } from "./piece";
 
 export var tileSize: number;
 
@@ -21,6 +21,7 @@ export default class Game {
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.showGrid();
         this.showPiecesAsText();
+        this.showPieces();
     }
 
     private showGrid() {
@@ -37,6 +38,73 @@ export default class Game {
         }
         this.ctx.beginPath();
         this.ctx.strokeRect(0, 0, canvas.width, canvas.height);
+    }
+
+    private showPieces() {
+        let imagePos: number;
+        
+        imagePos = 0;
+        for (let i = 0; i < board.whitePieces.length; i++) {
+            switch (board.whitePieces[i].kind) {
+                case "Pawn": {
+                    imagePos = 5;
+                    break;
+                }
+                case "Knigth": {
+                    imagePos = 3;
+                    break;
+                }
+                case "Bishop": {
+                    imagePos = 2;
+                    break;
+                }
+                case "Rook": {
+                    imagePos = 4;
+                    break;
+                }
+                case "Queen": {
+                    imagePos = 1;
+                    break;
+                }
+                case "King": {
+                    imagePos = 0;
+                    break;
+                }
+            }
+            this.ctx.drawImage(images[imagePos], board.whitePieces[i].pixelPositon.x, board.whitePieces[i].pixelPositon.y,
+                80, 80);
+        }
+        for (let i = 0; i < board.blackPieces.length; i++) {
+            switch (board.blackPieces[i].kind) {
+                case "Pawn": {
+                    imagePos = 11;
+                    break;
+                }
+                case "Knigth": {
+                    imagePos = 9;
+                    break;
+                }
+                case "Bishop": {
+                    imagePos = 8;
+                    break;
+                }
+                case "Rook": {
+                    imagePos = 10;
+                    break;
+                }
+                case "Queen": {
+                    imagePos = 7;
+                    break;
+                }
+                case "King": {
+                    imagePos = 6;
+                    break;
+                }
+            }
+            this.ctx.drawImage(images[imagePos], board.blackPieces[i].pixelPositon.x,
+                board.blackPieces[i].pixelPositon.y,
+                80, 80);
+        }
     }
 
     private showPiecesAsText() {

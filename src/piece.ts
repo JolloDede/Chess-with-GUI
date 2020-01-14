@@ -1,6 +1,5 @@
 import { IVector, createVector } from './main';
 import { Board } from './board';
-import { mouseX, mouseY } from "./click";
 import { tileSize } from "./game";
 
 export abstract class Piece {
@@ -12,6 +11,7 @@ export abstract class Piece {
     pic?: HTMLImageElement;
     movingThisPiece: boolean;
     value: number;
+    kind: string;
     static images: HTMLImageElement[];
     constructor(x: number, y: number, isWhite: boolean, letter: string) {
         this.matrixPosition = createVector(x, y);
@@ -22,6 +22,7 @@ export abstract class Piece {
         this.letter = letter;
         this.movingThisPiece = false;
         this.value = 0;
+        this.kind = "";
     }
 
     move(x: number, y: number, board: Board): void {
@@ -103,6 +104,7 @@ export class King extends Piece {
         //     this.pic = King.images[6];
         // }
         this.value = 99;
+        this.kind = "King";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
@@ -196,6 +198,7 @@ export class Queen extends Piece {
         //     this.pic = Queen.images[7];
         // }
         this.value = 9;
+        this.kind = "Queen";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
@@ -300,6 +303,7 @@ export class Rook extends Piece {
         //     this.pic = Rook.images[10];
         // }
         this.value = 5;
+        this.kind = "Rook";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
@@ -367,6 +371,7 @@ export class Bishop extends Piece {
         //     this.pic = Bishop.images[8];
         // }
         this.value = 3;
+        this.kind = "Bishop";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
@@ -437,6 +442,7 @@ export class Knigth extends Piece {
         //     this.pic = Knigth.images[9];
         // }
         this.value = 3;
+        this.kind = "Knigth";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
@@ -503,6 +509,7 @@ export class Pawn extends Piece {
         //     this.pic = Pawn.images[11];
         // }
         this.value = 1;
+        this.kind = "Pawn";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
