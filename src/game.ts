@@ -1,4 +1,4 @@
-import { canvas } from "./click";
+import { canvas, mouseX, mouseY } from "./click";
 import { board } from "./main";
 import { Board } from "./board";
 import { Piece } from "./piece";
@@ -18,9 +18,9 @@ export default class Game {
 
     public render() {
         console.log("Render");
+        this.ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.showGrid();
-        // board.show();
-        this.showPieces();
+        this.showPiecesAsText();
     }
 
     private showGrid() {
@@ -39,20 +39,36 @@ export default class Game {
         this.ctx.strokeRect(0, 0, canvas.width, canvas.height);
     }
 
-    private showPieces() {
+    private showPiecesAsText() {
         this.ctx.beginPath();
-        this.ctx.font = "30px Arial";
-        this.ctx.fillStyle = "red";
+        this.ctx.font = "bold 40px Arial";
+        this.ctx.fillStyle = "white";
         this.ctx.textAlign = "center";
+        this.ctx.stroke();
+        this.ctx.strokeStyle = "black";
         for (let i = 0; i < board.whitePieces.length; i++) {
-            this.ctx.fillText(board.whitePieces[i].letter, board.whitePieces[i].pixelPositon.x, board.whitePieces[i].pixelPositon.y);
+            if (board.whitePieces[i].movingThisPiece) {
+                this.ctx.fillText(board.whitePieces[i].letter, mouseX, mouseY);
+                this.ctx.strokeText(board.whitePieces[i].letter, mouseX, mouseY);
+            } else {
+                this.ctx.fillText(board.whitePieces[i].letter, board.whitePieces[i].pixelPositon.x, board.whitePieces[i].pixelPositon.y);
+                this.ctx.strokeText(board.whitePieces[i].letter, board.whitePieces[i].pixelPositon.x, board.whitePieces[i].pixelPositon.y);
+            }
         }
         this.ctx.beginPath();
-        this.ctx.font = "30px Arial";
-        this.ctx.fillStyle = "blue";
+        this.ctx.font = "bold 40px Arial";
+        this.ctx.fillStyle = "black";
         this.ctx.textAlign = "center";
+        this.ctx.stroke();
+        this.ctx.strokeStyle = "white";
         for (let i = 0; i < board.blackPieces.length; i++) {
-            this.ctx.fillText(board.blackPieces[i].letter, board.blackPieces[i].pixelPositon.x, board.blackPieces[i].pixelPositon.y);
+            if (board.blackPieces[i].movingThisPiece) {
+                this.ctx.fillText(board.blackPieces[i].letter, mouseX, mouseY);
+                this.ctx.strokeText(board.blackPieces[i].letter, mouseX, mouseY);
+            } else {
+                this.ctx.fillText(board.blackPieces[i].letter, board.blackPieces[i].pixelPositon.x, board.blackPieces[i].pixelPositon.y);
+                this.ctx.strokeText(board.blackPieces[i].letter, board.blackPieces[i].pixelPositon.x, board.blackPieces[i].pixelPositon.y);
+            }
         }
     }
 

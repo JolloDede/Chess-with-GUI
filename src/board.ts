@@ -44,15 +44,6 @@ export class Board {
         }
     }
 
-    show(): void {
-        for (var i = 0; i < this.whitePieces.length; i++) {
-            this.whitePieces[i].show();
-        }
-        for (var i = 0; i < this.blackPieces.length; i++) {
-            this.blackPieces[i].show();
-        }
-    }
-
     pieceAt(x: number, y: number): boolean {
         for (var i = 0; i < this.whitePieces.length; i++) {
             if (this.whitePieces[i].matrixPosition.x == x && this.whitePieces[i].matrixPosition.y == y) {
@@ -82,9 +73,8 @@ export class Board {
                 return this.blackPieces[i];
             }
         }
-        // If you get here there is something wrong in the Application
-        alert("Error");
-        return new King(1,2,true);
+        alert("fatal Error getPieceAt");
+        return new King(0,0,true);
     }
 
     isDone(): boolean {
@@ -153,7 +143,8 @@ export class Board {
     kingUnderAttack(king: King): void{
         let pieces: Piece[];
         let moves: IVector[];
-        let colorWhite: boolean = king.white
+        let colorWhite: boolean = king.white;
+
         if(colorWhite){
             pieces = this.blackPieces;
         }else{

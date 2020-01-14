@@ -1,4 +1,4 @@
-import { IVector, createVector} from './main';
+import { IVector, createVector } from './main';
 import { Board } from './board';
 import { mouseX, mouseY } from "./click";
 import { tileSize } from "./game";
@@ -24,32 +24,12 @@ export abstract class Piece {
         this.value = 0;
     }
 
-    show(): void {
-        if (!this.taken) {
-            //textSize(40);
-            //strokeWeight(10);
-            //if (this.white) {
-            //  fill(255);
-            //  stroke(0);
-            //} else {
-            //  fill(30);
-            //  stroke(255);
-            //}
-            //textAlign(CENTER, CENTER);
-            if (this.movingThisPiece) {
-                // text(this.letter, mouseX, mouseY);
-                // image(this.pic, mouseX - 50, mouseY - 50, Piece.tileSize * 1.5, Piece.tileSize * 1.5);
-            } else {
-                // text(this.letter, this.pixelPositon.x, this.pixelPositon.y);
-                // image(this.pic, this.pixelPositon.x - 50, this.pixelPositon.y - 50, Piece.tileSize, Piece.tileSize);
-            }
-        }
-    }
-
     move(x: number, y: number, board: Board): void {
-        var attacking = board.getPieceAt(x, y);
-        if (attacking != null) {
-            attacking.taken = true;
+        if (board.pieceAt(x, y)) {
+            var attacking = board.getPieceAt(x, y);
+            if (attacking != null) {
+                attacking.taken = true;
+            }
         }
         this.matrixPosition = createVector(x, y);
         this.pixelPositon = createVector(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2 + 10);
@@ -63,8 +43,8 @@ export abstract class Piece {
     }
 
     attackingAllies(x: number, y: number, board: Board): boolean {
-        var attacking = board.getPieceAt(x, y);
-        if (attacking != null) {
+        if (board.pieceAt(x, y)) {
+            var attacking = board.getPieceAt(x, y);
             if (attacking.white == this.white) {
                 return true;
             }
@@ -139,11 +119,6 @@ export class King extends Piece {
             this.firstTurn = false;
             return true;
         }
-        // if (this.firstTurn && !this.gotAttacked &&
-        //     (abs(x - this.matrixPosition.x) == 2 || abs(x - this.matrixPosition.x) == -2)
-        //     && abs(y - this.matrixPosition.y) == 0) {
-        //     return true;
-        // }
         if (this.firstTurn && !this.gotAttacked && Math.abs(x - this.matrixPosition.x) == 2 && Math.abs(y - this.matrixPosition.y) == 0) {
             return this.rochade(x, this.white, board);
         }
@@ -472,7 +447,7 @@ export class Knigth extends Piece {
             return false;
         }
         if (Math.abs(x - this.matrixPosition.x) == 1 && Math.abs(y - this.matrixPosition.y) == 2 ||
-        Math.abs(x - this.matrixPosition.x) == 2 && Math.abs(y - this.matrixPosition.y) == 1) {
+            Math.abs(x - this.matrixPosition.x) == 2 && Math.abs(y - this.matrixPosition.y) == 1) {
             return true;
         }
         return false;
@@ -622,7 +597,7 @@ export class Pawn extends Piece {
                     }
                 }
             }
-        }else{
+        } else {
 
         }
         return moves;
