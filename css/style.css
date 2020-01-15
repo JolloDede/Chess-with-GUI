@@ -9,11 +9,15 @@
 }
 
 #canvas-overlay-container {
+    position: absolute;
+    font-size: large;
     border: 3px solid black;
     border-radius: 16px;
     padding: 10px;
     background-color: #cccccc;
     width: 350px;
+    /* margin-right: auto;
+    margin-left: auto; */
 }
 
 #Username {
@@ -26,4 +30,18 @@
     background-color: #cccccc;
     border: 3px solid black;
     border-radius: 5px;
+}
+
+.game-wrapper {
+    background-image: url("../assets/Wood_Background.jpg");
+    background-color: brown;
+}
+
+.canvas-container {
+    text-align: center;
+}
+
+#myCanvas {
+    border: 20px solid black;
+    border-radius: 20px;
 }

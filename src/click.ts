@@ -107,8 +107,8 @@ function getMousePos(event: MouseEvent): void{
 }
 
 function newGameButtonClick(){
-    // let coc: HTMLDivElement;
+    let coc: HTMLDivElement;
 
-    // coc = document.getElementById("canvas-overlay-container") as HTMLDivElement;
-    // coc.style.display = "initial";
+    coc = document.getElementById("canvas-overlay-container") as HTMLDivElement;
+    coc.style.display = "initial";
 }
