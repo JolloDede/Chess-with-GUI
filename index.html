@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Chess</title>
 </head>
 
 <body>
@@ -28,13 +29,16 @@
                     <div class="canvas-container">
 
                         <div id="canvas-overlay-container">
-                            <div id="title">Chess game</div>
-                            <label for="Username"><input type="text" name="Username" id="Username" placeholder="Username"></label>
+                            <h2>Chess game</h2>
+                            <label for="Username">Username: <br><input type="text" name="Username" id="Username" placeholder="Username"></label><br>
+                            <label for="AI-Selection">Enemi: <br>
                             <select name="AI-Selection" id="AI-Selection">
                                 <option value="Random">Random AI</option>
                                 <option value="MiniMax">Minimax AI</option>
+                                <option value="Player">Player</option>
                             </select>
-                            <label><input type="radio" name="Color" value="white">White</label>
+                            </label><br>
+                            <label><input type="radio" name="Color" value="white" checked>White</label>
                             <label><input type="radio" name="Color" value="black">Black</label>
                             <button id="start">Start</button>
                         </div>

@@ -15,7 +15,10 @@ export abstract class Piece {
     static images: HTMLImageElement[];
     constructor(x: number, y: number, isWhite: boolean, letter: string) {
         this.matrixPosition = createVector(x, y);
-        this.pixelPositon = createVector(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2 + 10);
+        // pixelPositon for Text
+        // this.pixelPositon = createVector(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2 + 10);
+        // pixelPositon for Images
+        this.pixelPositon = createVector(x*tileSize, y*tileSize);
 
         this.taken = false;
         this.white = isWhite;
@@ -33,7 +36,7 @@ export abstract class Piece {
             }
         }
         this.matrixPosition = createVector(x, y);
-        this.pixelPositon = createVector(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2 + 10);
+        this.pixelPositon = createVector(x*tileSize, y*tileSize);
     }
 
     withinBounds(x: number, y: number): boolean {

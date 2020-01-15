@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+}
+
+#canvas-overlay-container {
+    border: 3px solid black;
+    border-radius: 16px;
+    padding: 10px;
+    background-color: #cccccc;
+    width: 350px;
+}
+
+#Username {
+    background-color: #cccccc;
+    border: 3px solid black;
+    border-radius: 5px;
+}
+
+#AI-Selection {
+    background-color: #cccccc;
+    border: 3px solid black;
+    border-radius: 5px;
+}

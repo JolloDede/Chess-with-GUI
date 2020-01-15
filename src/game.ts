@@ -9,7 +9,6 @@ export default class Game {
     ctx: CanvasRenderingContext2D;
 
     constructor() {
-        this.startGameLog();
         this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
         if (canvas.height == canvas.width) {
             tileSize = canvas.height / 8;
@@ -20,11 +19,11 @@ export default class Game {
         console.log("Render");
         this.ctx.clearRect(0, 0, canvas.width, canvas.height);
         this.showGrid();
-        this.showPiecesAsText();
         this.showPieces();
+        // this.showPiecesAsText();
     }
 
-    private showGrid() {
+    public showGrid() {
         this.ctx.beginPath();
         this.ctx.fillStyle = "black";
         for (let i = 0; i < 8; i++) {
@@ -71,8 +70,13 @@ export default class Game {
                     break;
                 }
             }
-            this.ctx.drawImage(images[imagePos], board.whitePieces[i].pixelPositon.x, board.whitePieces[i].pixelPositon.y,
-                80, 80);
+            if (board.whitePieces[i].movingThisPiece){
+                this.ctx.drawImage(images[imagePos], mouseX-tileSize/2, mouseY-tileSize/2,
+                    tileSize+tileSize*0.2, tileSize+tileSize*0.2);
+            }else{
+                this.ctx.drawImage(images[imagePos], board.whitePieces[i].pixelPositon.x, board.whitePieces[i].pixelPositon.y,
+                    tileSize, tileSize);
+            }   
         }
         for (let i = 0; i < board.blackPieces.length; i++) {
             switch (board.blackPieces[i].kind) {
@@ -101,9 +105,13 @@ export default class Game {
                     break;
                 }
             }
+            if (board.blackPieces[i].movingThisPiece){
+                this.ctx.drawImage(images[imagePos], mouseX-tileSize/2, mouseY-tileSize/2, tileSize+tileSize*0.2, tileSize+tileSize*0.2);
+            }else{
             this.ctx.drawImage(images[imagePos], board.blackPieces[i].pixelPositon.x,
                 board.blackPieces[i].pixelPositon.y,
-                80, 80);
+                tileSize, tileSize);
+            }
         }
     }
 
@@ -138,22 +146,5 @@ export default class Game {
                 this.ctx.strokeText(board.blackPieces[i].letter, board.blackPieces[i].pixelPositon.x, board.blackPieces[i].pixelPositon.y);
             }
         }
-    }
-
-    private startGameLog() {
-        let name: string;
-        let ai: string;
-        let color: string;
-        let el: HTMLSelectElement;
-        let rEl: any;
-        color = "";
-        name = (<HTMLInputElement>document.getElementById("Username")).value;
-        el = (document.getElementById("AI-Selection") as HTMLSelectElement);
-        ai = (<HTMLOptionElement>el.options[el.selectedIndex]).value;
-        rEl = document.getElementsByName("Color");
-        if (rEl.checked) {
-            color = rEl.value as string;
-        }
-        console.log("Welcome " + name + " you 're playing against " + ai + " you have the " + color + " Pieces");
     }
 }

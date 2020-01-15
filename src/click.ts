@@ -67,8 +67,14 @@ function startButtonClick(){
     let app: App = new App(new Game());
     let el: HTMLSelectElement;
     let ai: string;
+    let color: string;
     let rEl: any;
+    let coc: HTMLDivElement;
 
+    coc = document.getElementById("canvas-overlay-container") as HTMLDivElement;
+    coc.style.display = "none";
+
+    color = "";
     el = (document.getElementById("AI-Selection") as HTMLSelectElement);
     ai = (<HTMLOptionElement>el.options[el.selectedIndex]).value;
     rEl = document.getElementsByName("Color");
@@ -83,6 +89,10 @@ function startButtonClick(){
             break;
         }
     }
+    if (rEl.checked) {
+        color = rEl.value as string;
+    }
+    console.log("Welcome " + name + " you 're playing against " + ai + " you have the " + color + " Pieces");
 }
 
 function mouseMoved(event: MouseEvent){
@@ -97,5 +107,8 @@ function getMousePos(event: MouseEvent): void{
 }
 
 function newGameButtonClick(){
+    // let coc: HTMLDivElement;
 
+    // coc = document.getElementById("canvas-overlay-container") as HTMLDivElement;
+    // coc.style.display = "initial";
 }
