@@ -1,18 +1,18 @@
-import { App, board } from './main';
-import Game, { tileSize } from './game';
-import { Piece, King } from './piece';
-import { RandomAI, MinimaxAI } from './AI';
+import { App, board } from "./main";
+import Game, { tileSize } from "./game";
+import { Piece, King } from "./piece";
+import { RandomAI, MinimaxAI } from "./AI";
 
-document.getElementById("back")!.onclick = function(){backButtonClick()}
-document.getElementById("advance")!.onclick = function(){advanceButtonClick()}
-document.getElementById("sound")!.onclick = function(){soundButtonClick()}
-document.getElementById("start")!.onclick = function(){startButtonClick()}
-document.getElementById("newGame")!.onclick = function(){newGameButtonClick()}
+document.getElementById("back")!.onclick = function () { backButtonClick() }
+document.getElementById("advance")!.onclick = function () { advanceButtonClick() }
+document.getElementById("sound")!.onclick = function () { soundButtonClick() }
+document.getElementById("start")!.onclick = function () { startButtonClick() }
+document.getElementById("new-game")!.onclick = function () { newGameButtonClick() }
 
 export var canvas: HTMLCanvasElement;
-canvas = document.getElementById("myCanvas") as HTMLCanvasElement;
-canvas.onmousemove = function(event: MouseEvent){mouseMoved(event)}
-canvas.onclick = function(){canvasClick()}
+canvas = document.getElementById("my-canvas") as HTMLCanvasElement;
+canvas.onmousemove = function (event: MouseEvent) { mouseMoved(event) }
+canvas.onclick = function () { canvasClick() }
 
 export var mouseX: number;
 export var mouseY: number;
@@ -23,47 +23,46 @@ var AI: RandomAI | MinimaxAI;
 function canvasClick() {
     let x: number;
     let y: number;
-    
+
     x = Math.floor(mouseX / tileSize);
-    y = Math.floor(mouseY / tileSize);    
-    if(!board.isDone()){
-        if (!moving){
-            if (board.pieceAt(x,y)){
-                movingPiece = board.getPieceAt(x,y);
+    y = Math.floor(mouseY / tileSize);
+    if (!board.isDone()) {
+        if (!moving) {
+            if (board.pieceAt(x, y)) {
+                movingPiece = board.getPieceAt(x, y);
                 movingPiece.movingThisPiece = true;
-            }else{
+            } else {
                 return;
             }
-        }else{
-            if(movingPiece.canMove(x,y,board)){
-                movingPiece.move(x,y,board);
+        } else {
+            if (movingPiece.canMove(x, y, board)) {
+                movingPiece.move(x, y, board);
                 // console.log(AI.getBoardAbsoluteValue(board.blackPieces, board.whitePieces));
                 board.kingUnderAttack(board.whitePieces[0] as King);
                 board.kingUnderAttack(board.blackPieces[0] as King);
                 AI.makeMove();
+                board.showScore();
             }
             movingPiece.movingThisPiece = false;
         }
-        console.log(moving);
         moving = !moving;
-        console.log(moving);      
         board.setScore();
     }
 }
 
-function backButtonClick(){
+function backButtonClick() {
 
 }
 
-function advanceButtonClick(){
+function advanceButtonClick() {
 
 }
 
-function soundButtonClick(){
+function soundButtonClick() {
 
 }
 
-function startButtonClick(){    
+function startButtonClick() {
     let app: App = new App(new Game());
     let el: HTMLSelectElement;
     let ai: string;
@@ -75,12 +74,12 @@ function startButtonClick(){
     coc.style.display = "none";
 
     color = "";
-    el = (document.getElementById("AI-Selection") as HTMLSelectElement);
+    el = (document.getElementById("ai-selection") as HTMLSelectElement);
     ai = (<HTMLOptionElement>el.options[el.selectedIndex]).value;
-    rEl = document.getElementsByName("Color");
+    rEl = document.getElementsByName("color");
     app.setup();
-    switch(ai){
-        case "Random":{
+    switch (ai) {
+        case "Random": {
             AI = new RandomAI(board, false);
             break;
         }
@@ -95,20 +94,86 @@ function startButtonClick(){
     console.log("Welcome " + name + " you 're playing against " + ai + " you have the " + color + " Pieces");
 }
 
-function mouseMoved(event: MouseEvent){
+function mouseMoved(event: MouseEvent) {
     getMousePos(event);
 }
 
-function getMousePos(event: MouseEvent): void{
+function getMousePos(event: MouseEvent): void {
     let rect: DOMRect
     rect = canvas.getBoundingClientRect();
     mouseX = event.clientX - rect.left;
     mouseY = event.clientY - rect.top;
 }
 
-function newGameButtonClick(){
+function newGameButtonClick() {
     let coc: HTMLDivElement;
 
     coc = document.getElementById("canvas-overlay-container") as HTMLDivElement;
     coc.style.display = "initial";
+}
+
+export function countPiecesDefeated(type: string, white: boolean){
+    let value: number;
+    switch(type){
+        case "Pawn": {
+            if (white){
+                value = Number(document.getElementById("pawn-score-white")!.innerText);
+                value++;
+                document.getElementById("pawn-score-white")!.innerText = String(value);
+            }else{
+                value = Number(document.getElementById("pawn-score-black")!.innerText);
+                value++;
+                document.getElementById("pawn-score-black")!.innerText = String(value);
+            }
+            break;
+        }
+        case "Bishop": {
+            if (white){
+                value = Number(document.getElementById("bishop-score-white")!.innerText);
+                value++;
+                document.getElementById("bishop-score-white")!.innerText = String(value);
+            }else{
+                value = Number(document.getElementById("bishop-score-black")!.innerText);
+                value++;
+                document.getElementById("bishop-score-black")!.innerText = String(value);
+            }
+            break;
+        }
+        case "Knigth": {
+            if (white){
+                value = Number(document.getElementById("knigth-score-white")!.innerText);
+                value++;
+                document.getElementById("knigth-score-white")!.innerText = String(value);
+            }else{
+                value = Number(document.getElementById("knigth-score-black")!.innerText);
+                value++;
+                document.getElementById("knigth-score-black")!.innerText = String(value);
+            }
+            break;
+        }
+        case "Rook": {
+            if (white){
+                value = Number(document.getElementById("rook-score-white")!.innerText);
+                value++;
+                document.getElementById("rook-score-white")!.innerText = String(value);
+            }else{
+                value = Number(document.getElementById("rook-score-black")!.innerText);
+                value++;
+                document.getElementById("rook-score-black")!.innerText = String(value);
+            }
+            break;
+        }
+        case "Queen": {
+            if (white){
+                value = Number(document.getElementById("queen-score-white")!.innerText);
+                value++;
+                document.getElementById("queen-score-white")!.innerText = String(value);
+            }else{
+                value = Number(document.getElementById("queen-score-black")!.innerText);
+                value++;
+                document.getElementById("queen-score-black")!.innerText = String(value);
+            }
+            break;
+        }
+    }
 }

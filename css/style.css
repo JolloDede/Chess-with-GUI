@@ -3,10 +3,21 @@
     padding: 0;
 }
 
+button {
+    background-image: url("../assets/Wood_Button_Background.jpg");
+    border-color: black;
+}
+
+button:hover {
+    opacity: 0.5;
+}
+
 .container {
     width: 80%;
     margin: auto;
 }
+
+/* Overlay for the Game */
 
 #canvas-overlay-container {
     position: absolute;
@@ -16,23 +27,42 @@
     padding: 10px;
     background-color: #cccccc;
     width: 350px;
-    /* margin-right: auto;
-    margin-left: auto; */
+    margin-left: auto; 
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    top: 20%;
 }
 
-#Username {
+#username {
     background-color: #cccccc;
     border: 3px solid black;
     border-radius: 5px;
 }
 
-#AI-Selection {
+#username:focus {
+    border-color: red;
+}
+
+#ai-selection {
     background-color: #cccccc;
     border: 3px solid black;
     border-radius: 5px;
 }
+
+#canvas-overlay-container button{
+    background-image: none;
+    background-color: inherit;
+    color: black;
+    border-color: initial;
+}
+
+/* End Overlay for the Game */
+
+/* Game */
 
 .game-wrapper {
+    z-index: 999;
     background-image: url("../assets/Wood_Background.jpg");
     background-color: brown;
 }
@@ -41,7 +71,83 @@
     text-align: center;
 }
 
-#myCanvas {
+#my-canvas {
+    z-index: 1;
     border: 20px solid black;
     border-radius: 20px;
+    width: 600px;
+    height: 600px;
 }
+
+#game-button-wrapper {
+    width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
+#back {
+    float: left;
+}
+
+#advance {
+    float: left;
+}
+
+#sound {
+    float: right;
+}
+
+/* End Game */
+
+/* Menu buttons */
+
+#menu-button-wrapper {
+    width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
+#menu-button-wrapper > ul{
+    list-style: none;
+}
+
+#menu-button-wrapper > ul > li > button{
+    width: 100%;
+    font-size: large;
+}
+
+/* End Menu button */
+
+/* Score Board */
+
+.game-sitepanel {
+    position: absolute;
+    background-color: red;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 15%;
+}
+
+.inline {
+    display: inline;
+}
+
+.score-number {
+    float: right;
+}
+
+th {
+    border: 1px solid black;
+
+}
+
+td > img{
+    width: 40px;
+}
+
+/* End Score Board */

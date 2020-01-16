@@ -1,7 +1,5 @@
 import { canvas, mouseX, mouseY } from "./click";
 import { board, images } from "./main";
-import { Board } from "./board";
-import { Piece, Pawn, Knigth, Bishop, Rook, Queen, King } from "./piece";
 
 export var tileSize: number;
 
@@ -9,15 +7,17 @@ export default class Game {
     ctx: CanvasRenderingContext2D;
 
     constructor() {
-        this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
-        if (canvas.height == canvas.width) {
-            tileSize = canvas.height / 8;
+        this.ctx = canvas.getContext("2d") as CanvasRenderingContext2D;        
+        if (canvas.offsetHeight == canvas.offsetWidth) {
+            tileSize = canvas.offsetHeight / 8;
+        }else{
+            alert("Canvas is not a square")
         }
     }
 
     public render() {
         console.log("Render");
-        this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+        this.ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
         this.showGrid();
         this.showPieces();
         // this.showPiecesAsText();
@@ -36,7 +36,7 @@ export default class Game {
             }
         }
         this.ctx.beginPath();
-        this.ctx.strokeRect(0, 0, canvas.width, canvas.height);
+        this.ctx.strokeRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
     }
 
     private showPieces() {
@@ -44,6 +44,7 @@ export default class Game {
         
         imagePos = 0;
         for (let i = 0; i < board.whitePieces.length; i++) {
+            if (board.whitePieces[i].taken){continue;}
             switch (board.whitePieces[i].kind) {
                 case "Pawn": {
                     imagePos = 5;
@@ -79,6 +80,7 @@ export default class Game {
             }   
         }
         for (let i = 0; i < board.blackPieces.length; i++) {
+            if (board.blackPieces[i].taken){continue;}
             switch (board.blackPieces[i].kind) {
                 case "Pawn": {
                     imagePos = 11;
@@ -115,36 +117,4 @@ export default class Game {
         }
     }
 
-    private showPiecesAsText() {
-        this.ctx.beginPath();
-        this.ctx.font = "bold 40px Arial";
-        this.ctx.fillStyle = "white";
-        this.ctx.textAlign = "center";
-        this.ctx.stroke();
-        this.ctx.strokeStyle = "black";
-        for (let i = 0; i < board.whitePieces.length; i++) {
-            if (board.whitePieces[i].movingThisPiece) {
-                this.ctx.fillText(board.whitePieces[i].letter, mouseX, mouseY);
-                this.ctx.strokeText(board.whitePieces[i].letter, mouseX, mouseY);
-            } else {
-                this.ctx.fillText(board.whitePieces[i].letter, board.whitePieces[i].pixelPositon.x, board.whitePieces[i].pixelPositon.y);
-                this.ctx.strokeText(board.whitePieces[i].letter, board.whitePieces[i].pixelPositon.x, board.whitePieces[i].pixelPositon.y);
-            }
-        }
-        this.ctx.beginPath();
-        this.ctx.font = "bold 40px Arial";
-        this.ctx.fillStyle = "black";
-        this.ctx.textAlign = "center";
-        this.ctx.stroke();
-        this.ctx.strokeStyle = "white";
-        for (let i = 0; i < board.blackPieces.length; i++) {
-            if (board.blackPieces[i].movingThisPiece) {
-                this.ctx.fillText(board.blackPieces[i].letter, mouseX, mouseY);
-                this.ctx.strokeText(board.blackPieces[i].letter, mouseX, mouseY);
-            } else {
-                this.ctx.fillText(board.blackPieces[i].letter, board.blackPieces[i].pixelPositon.x, board.blackPieces[i].pixelPositon.y);
-                this.ctx.strokeText(board.blackPieces[i].letter, board.blackPieces[i].pixelPositon.x, board.blackPieces[i].pixelPositon.y);
-            }
-        }
-    }
 }

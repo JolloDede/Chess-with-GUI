@@ -83,12 +83,12 @@ export class Board {
 
     setScore(): void {
         this.scoreWhite = 0;
+        this.scoreBlack = 0;
         for (var i = 0; i < this.whitePieces.length; i++) {
             if (this.whitePieces[i].taken) {
                 this.scoreBlack += this.whitePieces[i].value;
             }
         }
-        this.scoreBlack = 0;
         for (var i = 0; i < this.blackPieces.length; i++) {
             if (this.blackPieces[i].taken) {
                 this.scoreWhite += this.blackPieces[i].value;
@@ -98,8 +98,8 @@ export class Board {
     }
 
     showScore(): void{
-        document.getElementById("scoreWhite")!.innerText = String(this.scoreWhite);
-        document.getElementById("scoreBlack")!.innerText = String(this.scoreBlack);
+        document.getElementById("score-white")!.innerText = String(this.scoreWhite);
+        document.getElementById("score-black")!.innerText = String(this.scoreBlack);
     }
 
     movePiece(from: IVector, to: IVector): void {
