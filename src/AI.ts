@@ -206,7 +206,7 @@ export class MinimaxAI extends AI {
         }
         return value;
     }
-
+// Stack für Nodes merken
     private createNewBoardsWithMovesRecursiv(board: Board, boards: Board[], depth: number): void {
         let moves: IVector[] = [];
         let pieces: Piece[];
@@ -245,8 +245,8 @@ export class MinimaxAI extends AI {
     }
 
     public makeMove(): void {
-        let boards: Board[];
-        boards = [];
+        let boards: Board[] = [];
+        this.Nodes = [];
         let bestMoveIndex: number;
         var RootNodeindex: number;
         var BranchNodeindex: number;
@@ -258,7 +258,24 @@ export class MinimaxAI extends AI {
         console.log(boards.length + " " + this.Nodes.length);
         console.log(this.minimax(this.Nodes[0], 3, true), this.Nodes[0].value);
         bestMoveIndex = this.getChildNodeIndexWithValue(this.Nodes[0]);
+        this.vergleichen(boards[bestMoveIndex])
         this.board.adjustBoards(boards[bestMoveIndex]);
+    }
+
+    vergleichen(board: Board){
+        let error: number = 0;
+        for (let i = 0; i < 8; i++) {
+            if ((this.board.whitePieces[i].matrixPosition.x != board.whitePieces[i].matrixPosition.x) 
+            || (this.board.whitePieces[i].matrixPosition.y != board.whitePieces[i].matrixPosition.y)){
+                error++;
+            }
+            if ((this.board.blackPieces[i].matrixPosition.x != board.blackPieces[i].matrixPosition.x) 
+            || (this.board.blackPieces[i].matrixPosition.y != board.blackPieces[i].matrixPosition.y)){
+                error++;
+            }
+        }
+        console.log("Error board vergleich: "+error);
+        
     }
 
     minimax(position: MyNode, depth: number, maximizingPlayer: boolean): number {

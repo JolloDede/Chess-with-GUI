@@ -1,5 +1,5 @@
-import { IVector, createVector } from './main';
-import { Board } from './board';
+import { IVector, createVector } from "./main";
+import { Board } from "./board";
 import { tileSize } from "./game";
 import { countPiecesDefeated } from "./click";
 
@@ -37,6 +37,7 @@ export abstract class Piece {
                 attacking.taken = true;
             }
         }
+        // console.log("Move "+this.kind+" from "+x+" to "+y);
         this.matrixPosition = createVector(x, y);
         this.pixelPositon = createVector(x*tileSize, y*tileSize);
     }

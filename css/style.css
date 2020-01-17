@@ -3,18 +3,43 @@
     padding: 0;
 }
 
+main{
+    text-align: center;
+}
+
 button {
-    background-image: url("../assets/Wood_Button_Background.jpg");
     border-color: black;
+    font-weight: bold;
 }
 
 button:hover {
     opacity: 0.5;
 }
 
+button:focus {
+    outline:0 !important; 
+}
+
 .container {
     width: 80%;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+}
+
+header{
+    background-color: grey;
+    top: 0;
+    height: 100px;
+    width: 100%;
+}
+
+header h1{
+    width: 80%;
+    margin: 0;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Overlay for the Game */
@@ -62,7 +87,6 @@ button:hover {
 /* Game */
 
 .game-wrapper {
-    z-index: 999;
     background-image: url("../assets/Wood_Background.jpg");
     background-color: brown;
 }
@@ -77,11 +101,17 @@ button:hover {
     border-radius: 20px;
     width: 600px;
     height: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
 }
 
 #game-button-wrapper {
     width: 640px;
+    height: 10px;
     margin-left: auto;
+    margin-bottom: 10px;
     margin-right: auto;
     left: 0;
     right: 0;
@@ -89,10 +119,18 @@ button:hover {
 
 #back {
     float: left;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.fas:hover {
+    opacity: 0.5;
 }
 
 #advance {
     float: left;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 #sound {
@@ -116,8 +154,12 @@ button:hover {
 }
 
 #menu-button-wrapper > ul > li > button{
+    background-image: url("../assets/Wood_Button_Background.jpg");
+    background-color: black;
     width: 100%;
-    font-size: large;
+    font-size: 40px;
+    color: white;
+    margin-bottom: 10px;
 }
 
 /* End Menu button */
@@ -125,12 +167,24 @@ button:hover {
 /* Score Board */
 
 .game-sitepanel {
-    position: absolute;
+    text-align: left;
     background-color: red;
-    top: 0;
+    margin-left: auto;
+    margin-right: auto;
+    top: 100px;
     right: 0;
     height: 100%;
     width: 15%;
+    float: right;
+    position: fixed;
+}
+
+.score-black-wrapper{
+    margin-top: 10px;
+}
+
+.score-white-wrapper{
+    margin-top: 10px;
 }
 
 .inline {
@@ -139,6 +193,7 @@ button:hover {
 
 .score-number {
     float: right;
+    margin-right: 10px;
 }
 
 th {

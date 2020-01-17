@@ -5,7 +5,8 @@ import { RandomAI, MinimaxAI } from "./AI";
 
 document.getElementById("back")!.onclick = function () { backButtonClick() }
 document.getElementById("advance")!.onclick = function () { advanceButtonClick() }
-document.getElementById("sound")!.onclick = function () { soundButtonClick() }
+var soundElement: HTMLLinkElement = document.getElementById("sound") as HTMLLinkElement;
+soundElement.onclick = function () { soundButtonClick() }
 document.getElementById("start")!.onclick = function () { startButtonClick() }
 document.getElementById("new-game")!.onclick = function () { newGameButtonClick() }
 
@@ -20,6 +21,8 @@ var moving: boolean;
 var movingPiece: Piece;
 var AI: RandomAI | MinimaxAI;
 
+var color: string;
+
 function canvasClick() {
     let x: number;
     let y: number;
@@ -30,7 +33,11 @@ function canvasClick() {
         if (!moving) {
             if (board.pieceAt(x, y)) {
                 movingPiece = board.getPieceAt(x, y);
-                movingPiece.movingThisPiece = true;
+                if ((movingPiece.white && color == "white") || (!movingPiece.white && color == "black")){
+                    movingPiece.movingThisPiece = true;
+                }else{
+                    return;
+                }
             } else {
                 return;
             }
@@ -58,15 +65,24 @@ function advanceButtonClick() {
 
 }
 
-function soundButtonClick() {
-
+function soundButtonClick(){
+    for (let i = 0; i < soundElement.classList.length; i++) {
+        if (soundElement.classList[i] == "fa-volume-up"){
+            soundElement.classList.remove("fa-volume-up");
+            soundElement.classList.add("fa-volume-mute");
+            break;
+        }else if (soundElement.classList[i] == "fa-volume-mute"){
+            soundElement.classList.remove("fa-volume-mute");
+            soundElement.classList.add("fa-volume-up");
+            break;
+        }
+    }
 }
 
 function startButtonClick() {
     let app: App = new App(new Game());
     let el: HTMLSelectElement;
     let ai: string;
-    let color: string;
     let rEl: any;
     let coc: HTMLDivElement;
 
@@ -77,19 +93,21 @@ function startButtonClick() {
     el = (document.getElementById("ai-selection") as HTMLSelectElement);
     ai = (<HTMLOptionElement>el.options[el.selectedIndex]).value;
     rEl = document.getElementsByName("color");
+    if (rEl[0].checked) {
+        color = rEl[0].value as string;
+    }else{
+        color = rEl[1].value as string;
+    }
     app.setup();
     switch (ai) {
         case "Random": {
-            AI = new RandomAI(board, false);
+            AI = new RandomAI(board, color == "white"? false: true);
             break;
         }
         case "MiniMax": {
-            AI = new MinimaxAI(board, false);
+            AI = new MinimaxAI(board, color == "white"? false: true);
             break;
         }
-    }
-    if (rEl.checked) {
-        color = rEl.value as string;
     }
     console.log("Welcome " + name + " you 're playing against " + ai + " you have the " + color + " Pieces");
 }
