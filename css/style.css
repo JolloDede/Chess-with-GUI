@@ -1,10 +1,15 @@
+:root {
+    --button-font-color: #E5D5C5;
+    --ctx--overlay-bg-color: #EDB680;
+}
+
 * {
     margin: 0;
     padding: 0;
 }
 
 body {
-    background-color: #F8F2E2;
+    background-color: #6B5138;
 }
 
 main{
@@ -33,7 +38,7 @@ button:focus {
 }
 
 header{
-    background-color: #E5CD8F;
+    background-color: #E5D5C5;
     top: 0;
     height: 100px;
     width: 100%;
@@ -54,7 +59,7 @@ header h1{
     border: 3px solid black;
     border-radius: 16px;
     padding: 10px;
-    background-color: #886B20;
+    background-color: var(--ctx--overlay-bg-color);
     width: 350px;
     margin-left: auto; 
     margin-right: auto;
@@ -64,7 +69,7 @@ header h1{
 }
 
 #username {
-    background-color: #D2A83C;
+    background-color: var(--ctx--overlay-bg-color);
     border: 3px solid black;
     border-radius: 5px;
 }
@@ -75,7 +80,7 @@ header h1{
 }
 
 #ai-selection {
-    background-color: #D2A83C;
+    background-color: var(--ctx--overlay-bg-color);
     border: 3px solid black;
     border-radius: 5px;
 }
@@ -188,7 +193,7 @@ input[name="color"] {
     background-color: black;
     width: 100%;
     font-size: 40px;
-    color: white;
+    color: var(--button-font-color);
     margin-bottom: 10px;
 }
 
@@ -198,7 +203,7 @@ input[name="color"] {
 
 .game-sitepanel {
     text-align: left;
-    background-color: #D2A83C;
+    background-color: #CE6D0C;
     margin-left: auto;
     margin-right: auto;
     top: 100px;

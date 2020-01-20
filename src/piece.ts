@@ -259,9 +259,10 @@ export class Queen extends Piece {
             }
         }
         // Diagonal
+        // Right to Left
         for (var i: number = 0; i < 8; i++) {
             x = i;
-            y = this.matrixPosition.y - (this.matrixPosition.x - 1);
+            y = this.matrixPosition.y - (this.matrixPosition.x - i);
             if (i != this.matrixPosition.x) {
                 if (this.withinBounds(x, y)) {
                     if (!this.attackingAllies(x, y, board)) {
@@ -270,10 +271,9 @@ export class Queen extends Piece {
                         }
                     }
                 }
-
             }
         }
-
+        // Left to Right
         for (var i = 0; i < 8; i++) {
             x = this.matrixPosition.x - (this.matrixPosition.y - i);
             y = i;
