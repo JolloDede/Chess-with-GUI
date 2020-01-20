@@ -85,6 +85,15 @@ function startButtonClick() {
     let ai: string;
     let rEl: any;
     let coc: HTMLDivElement;
+    let name: string;
+
+    name = (document.getElementById("username")! as HTMLInputElement).value;
+    if (name == ""){
+        document.getElementById("error-noname")!.style.display = "block";
+        return;
+    }else{
+        document.getElementById("error-noname")!.style.display = "none";
+    }
 
     coc = document.getElementById("canvas-overlay-container") as HTMLDivElement;
     coc.style.display = "none";

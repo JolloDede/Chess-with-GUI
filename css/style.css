@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+body {
+    background-color: #F8F2E2;
+}
+
 main{
     text-align: center;
 }
@@ -17,7 +21,7 @@ button:hover {
 }
 
 button:focus {
-    outline:0 !important; 
+    outline: 0; 
 }
 
 .container {
@@ -29,7 +33,7 @@ button:focus {
 }
 
 header{
-    background-color: grey;
+    background-color: #E5CD8F;
     top: 0;
     height: 100px;
     width: 100%;
@@ -50,7 +54,7 @@ header h1{
     border: 3px solid black;
     border-radius: 16px;
     padding: 10px;
-    background-color: #cccccc;
+    background-color: #886B20;
     width: 350px;
     margin-left: auto; 
     margin-right: auto;
@@ -60,19 +64,25 @@ header h1{
 }
 
 #username {
-    background-color: #cccccc;
+    background-color: #D2A83C;
     border: 3px solid black;
     border-radius: 5px;
 }
 
 #username:focus {
     border-color: red;
+    outline: 0;
 }
 
 #ai-selection {
-    background-color: #cccccc;
+    background-color: #D2A83C;
     border: 3px solid black;
     border-radius: 5px;
+}
+
+#ai-selection:focus {
+    outline: 0;
+    border-color: red;
 }
 
 #canvas-overlay-container button{
@@ -80,6 +90,26 @@ header h1{
     background-color: inherit;
     color: black;
     border-color: initial;
+}
+
+#start {
+    border: 3px solid black;
+    border-radius: 5px;
+    padding: 2px;
+}
+
+input[name="color"] {
+    background-color: #D2A83C;
+}
+
+#start:hover{
+    border-color: red;
+}
+
+#error-noname {
+    color: red;
+    font-size: large;
+    font-weight: bold;
 }
 
 /* End Overlay for the Game */
@@ -168,7 +198,7 @@ header h1{
 
 .game-sitepanel {
     text-align: left;
-    background-color: red;
+    background-color: #D2A83C;
     margin-left: auto;
     margin-right: auto;
     top: 100px;
