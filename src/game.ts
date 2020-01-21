@@ -42,6 +42,7 @@ export default class Game {
 
     private showMovesMovingPiece(){
         let moves: IVector[] = [];
+        
         if(movingPiece == undefined || movingPiece.movingThisPiece == false){
             return;
         }
@@ -50,7 +51,7 @@ export default class Game {
         this.ctx.fillStyle = "green";
         for (let i = 0; i < moves.length; i++) {
             this.ctx.moveTo(moves[i].x*tileSize+tileSize/2, moves[i].y*tileSize+tileSize/2);
-            this.ctx.arc(moves[i].x*tileSize+tileSize/2, moves[i].y*tileSize+tileSize/2, 20, 0, 2 * Math.PI);
+            this.ctx.arc(moves[i].x*tileSize+tileSize/2, moves[i].y*tileSize+tileSize/2, 15, 0, 2 * Math.PI);
         }
         this.ctx.fill();
     }

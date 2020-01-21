@@ -260,9 +260,9 @@ export class Queen extends Piece {
         }
         // Diagonal
         // Right to Left
-        for (var i: number = 0; i < 8; i++) {
+        for (var i: number = 7; i >=0; i--) {
             x = i;
-            y = this.matrixPosition.y - (this.matrixPosition.x - i);
+            y = this.matrixPosition.y + this.matrixPosition.x - i;
             if (i != this.matrixPosition.x) {
                 if (this.withinBounds(x, y)) {
                     if (!this.attackingAllies(x, y, board)) {
@@ -401,9 +401,9 @@ export class Bishop extends Piece {
         if (this.taken) {
             return [];
         }
-        for (var i = 0; i < 8; i++) {
+        for (var i = 7; i >= 0; i--) {
             var x = i;
-            var y = this.matrixPosition.y - (this.matrixPosition.x - i);
+            var y = this.matrixPosition.y + this.matrixPosition.x - i;
             if (i != this.matrixPosition.x) {
                 if (this.withinBounds(x, y)) {
                     if (!this.attackingAllies(x, y, board)) {
