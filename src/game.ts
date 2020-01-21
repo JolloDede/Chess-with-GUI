@@ -1,5 +1,5 @@
-import { canvas, mouseX, mouseY } from "./click";
-import { board, images } from "./main";
+import { canvas, mouseX, mouseY, movingPiece } from "./click";
+import { board, images, IVector } from "./main";
 
 export var tileSize: number;
 
@@ -21,6 +21,7 @@ export default class Game {
         this.showGrid();
         this.showPieces();
         // this.showPiecesAsText();
+        this.showMovesMovingPiece();
     }
 
     public showGrid() {
@@ -37,6 +38,22 @@ export default class Game {
         }
         this.ctx.beginPath();
         this.ctx.strokeRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+    }
+
+    private showMovesMovingPiece(){
+        let moves: IVector[] = [];
+        
+        if(movingPiece == undefined || movingPiece.movingThisPiece == false){
+            return;
+        }
+        moves = movingPiece.generateMoves(board);
+        this.ctx.beginPath();
+        this.ctx.fillStyle = "green";
+        for (let i = 0; i < moves.length; i++) {
+            this.ctx.moveTo(moves[i].x*tileSize+tileSize/2, moves[i].y*tileSize+tileSize/2);
+            this.ctx.arc(moves[i].x*tileSize+tileSize/2, moves[i].y*tileSize+tileSize/2, 15, 0, 2 * Math.PI);
+        }
+        this.ctx.fill();
     }
 
     private showPieces() {

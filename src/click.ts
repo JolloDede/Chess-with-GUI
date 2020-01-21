@@ -18,7 +18,7 @@ canvas.onclick = function () { canvasClick() }
 export var mouseX: number;
 export var mouseY: number;
 var moving: boolean;
-var movingPiece: Piece;
+export var movingPiece: Piece;
 var AI: RandomAI | MinimaxAI;
 
 var color: string;
