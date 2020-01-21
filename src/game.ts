@@ -11,7 +11,7 @@ export default class Game {
         if (canvas.offsetHeight == canvas.offsetWidth) {
             tileSize = canvas.offsetHeight / 8;
         }else{
-            alert("Canvas is not a square")
+            alert("Canvas is not a square");
         }
     }
 
