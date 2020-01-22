@@ -324,18 +324,23 @@ export class MinimaxAI extends AI {
         console.log(boards.length + " " + this.Nodes.length);
         console.log(this.minimax(this.Nodes[0], 3, true), this.Nodes[0].value);
         bestMoveIndex = this.getChildNodeIndexWithValue(this.Nodes[0]);
-
+        return this.boardComparePosOff(boards[bestMoveIndex]);
     }
 
-    boardVergleichPosOff(destBoard: Board): IVector {
+    boardComparePosOff(destBoard: Board): IMove {
         for (let i: number = 0; i < 16; i++) {
             if (this.pieces[0].white){
-                destBoard.whitePieces
+                if (this.pieces[i].matrixPosition.x != destBoard.whitePieces[i].matrixPosition.x || this.pieces[i].matrixPosition.y != destBoard.whitePieces[i].matrixPosition.y){
+                    return { from: this.pieces[i].matrixPosition, to: destBoard.whitePieces[i].matrixPosition } as IMove;
+                }
             }else{
-                destBoard.blackPieces
+                if (this.pieces[i].matrixPosition.x != destBoard.blackPieces[i].matrixPosition.x || this.pieces[i].matrixPosition.y != destBoard.blackPieces[i].matrixPosition.y){
+                    return { from: this.pieces[i].matrixPosition, to: destBoard.blackPieces[i].matrixPosition } as IMove;
+                }
             }
         }
-        return { x: 1, y: 2 } as IVector;
+        console.log("Error Compare Pos of Boards");
+        return {} as IMove
     }
 
 }

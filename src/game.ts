@@ -1,5 +1,6 @@
 import { canvas, mouseX, mouseY, movingPiece } from "./click";
 import { board, images, IVector } from "./main";
+import { Piece } from "./piece";
 
 export var tileSize: number;
 
@@ -69,6 +70,13 @@ export default class Game {
             this.ctx.arc(moves[i].x * tileSize + tileSize / 2, moves[i].y * tileSize + tileSize / 2, 15, 0, 2 * Math.PI);
         }
         this.ctx.fill();
+    }
+
+    gameLog(piece: Piece, to: IVector){
+        let logTextEl: HTMLTextAreaElement;
+
+        logTextEl = document.getElementById("game-log-text") as HTMLTextAreaElement;
+        logTextEl.value = piece.letter + piece.matrixPosition.x + piece.matrixPosition.y +"\n"+logTextEl.value;
     }
 
     private showPieces() {

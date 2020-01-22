@@ -1,4 +1,4 @@
-import { App, board } from "./main";
+import { App, board, IMove } from "./main";
 import Game, { tileSize } from "./game";
 import { Piece, King } from "./piece";
 import { RandomAI, MinimaxAI } from "./AI";
@@ -41,6 +41,7 @@ function canvasClick() {
     let x: number;
     let y: number;
     let piece: Piece;
+    let move: IMove;
 
     x = Math.floor(mouseX / tileSize);
     y = Math.floor(mouseY / tileSize);
@@ -65,8 +66,9 @@ function canvasClick() {
                 movingPiece.move(x, y, board);
                 board.kingUnderAttack(board.whitePieces[0] as King);
                 board.kingUnderAttack(board.blackPieces[0] as King);
-                AI.decideMove();
-                AI.makeMove();
+                move = AI.decideMove();
+                app.getGame().gameLog(board.getPieceAt(move.from.x, move.from.y), move.to);
+                AI.makeMove(move.from, move.to);
                 board.showScore();
             }
             movingPiece.movingThisPiece = false;
