@@ -10,6 +10,8 @@ soundElement.onclick = function () { soundButtonClick() }
 document.getElementById("start")!.onclick = function () { startButtonClick() }
 document.getElementById("new-game")!.onclick = function () { newGameButtonClick() }
 
+window.onkeydown = function (event: KeyboardEvent) { enterClick(event)}
+
 export var canvas: HTMLCanvasElement;
 canvas = document.getElementById("my-canvas") as HTMLCanvasElement;
 canvas.onmousemove = function (event: MouseEvent) { mouseMoved(event) }
@@ -23,6 +25,15 @@ var AI: RandomAI | MinimaxAI;
 
 var color: string;
 
+
+function enterClick(event: KeyboardEvent){
+    if (event.keyCode == 13) {
+        if (document.getElementById("canvas-overlay-container")!.style.display != "none"){
+            startButtonClick();
+        }
+    }
+}
+
 function canvasClick() {
     let x: number;
     let y: number;
@@ -33,9 +44,9 @@ function canvasClick() {
         if (!moving) {
             if (board.pieceAt(x, y)) {
                 movingPiece = board.getPieceAt(x, y);
-                if ((movingPiece.white && color == "white") || (!movingPiece.white && color == "black")){
+                if ((movingPiece.white && color == "white") || (!movingPiece.white && color == "black")) {
                     movingPiece.movingThisPiece = true;
-                }else{
+                } else {
                     return;
                 }
             } else {
@@ -65,13 +76,13 @@ function advanceButtonClick() {
 
 }
 
-function soundButtonClick(){
+function soundButtonClick() {
     for (let i = 0; i < soundElement.classList.length; i++) {
-        if (soundElement.classList[i] == "fa-volume-up"){
+        if (soundElement.classList[i] == "fa-volume-up") {
             soundElement.classList.remove("fa-volume-up");
             soundElement.classList.add("fa-volume-mute");
             break;
-        }else if (soundElement.classList[i] == "fa-volume-mute"){
+        } else if (soundElement.classList[i] == "fa-volume-mute") {
             soundElement.classList.remove("fa-volume-mute");
             soundElement.classList.add("fa-volume-up");
             break;
@@ -88,10 +99,10 @@ function startButtonClick() {
     let name: string;
 
     name = (document.getElementById("username")! as HTMLInputElement).value;
-    if (name == ""){
+    if (name == "") {
         document.getElementById("error-noname")!.style.display = "block";
         return;
-    }else{
+    } else {
         document.getElementById("error-noname")!.style.display = "none";
     }
 
@@ -104,17 +115,17 @@ function startButtonClick() {
     rEl = document.getElementsByName("color");
     if (rEl[0].checked) {
         color = rEl[0].value as string;
-    }else{
+    } else {
         color = rEl[1].value as string;
     }
     app.setup();
     switch (ai) {
         case "Random": {
-            AI = new RandomAI(board, color == "white"? false: true);
+            AI = new RandomAI(board, color == "white" ? false : true);
             break;
         }
         case "MiniMax": {
-            AI = new MinimaxAI(board, color == "white"? false: true);
+            AI = new MinimaxAI(board, color == "white" ? false : true);
             break;
         }
     }
@@ -139,15 +150,15 @@ function newGameButtonClick() {
     coc.style.display = "initial";
 }
 
-export function countPiecesDefeated(type: string, white: boolean){
+export function countPiecesDefeated(type: string, white: boolean) {
     let value: number;
-    switch(type){
+    switch (type) {
         case "Pawn": {
-            if (white){
+            if (white) {
                 value = Number(document.getElementById("pawn-score-white")!.innerText);
                 value++;
                 document.getElementById("pawn-score-white")!.innerText = String(value);
-            }else{
+            } else {
                 value = Number(document.getElementById("pawn-score-black")!.innerText);
                 value++;
                 document.getElementById("pawn-score-black")!.innerText = String(value);
@@ -155,11 +166,11 @@ export function countPiecesDefeated(type: string, white: boolean){
             break;
         }
         case "Bishop": {
-            if (white){
+            if (white) {
                 value = Number(document.getElementById("bishop-score-white")!.innerText);
                 value++;
                 document.getElementById("bishop-score-white")!.innerText = String(value);
-            }else{
+            } else {
                 value = Number(document.getElementById("bishop-score-black")!.innerText);
                 value++;
                 document.getElementById("bishop-score-black")!.innerText = String(value);
@@ -167,11 +178,11 @@ export function countPiecesDefeated(type: string, white: boolean){
             break;
         }
         case "Knigth": {
-            if (white){
+            if (white) {
                 value = Number(document.getElementById("knigth-score-white")!.innerText);
                 value++;
                 document.getElementById("knigth-score-white")!.innerText = String(value);
-            }else{
+            } else {
                 value = Number(document.getElementById("knigth-score-black")!.innerText);
                 value++;
                 document.getElementById("knigth-score-black")!.innerText = String(value);
@@ -179,11 +190,11 @@ export function countPiecesDefeated(type: string, white: boolean){
             break;
         }
         case "Rook": {
-            if (white){
+            if (white) {
                 value = Number(document.getElementById("rook-score-white")!.innerText);
                 value++;
                 document.getElementById("rook-score-white")!.innerText = String(value);
-            }else{
+            } else {
                 value = Number(document.getElementById("rook-score-black")!.innerText);
                 value++;
                 document.getElementById("rook-score-black")!.innerText = String(value);
@@ -191,11 +202,11 @@ export function countPiecesDefeated(type: string, white: boolean){
             break;
         }
         case "Queen": {
-            if (white){
+            if (white) {
                 value = Number(document.getElementById("queen-score-white")!.innerText);
                 value++;
                 document.getElementById("queen-score-white")!.innerText = String(value);
-            }else{
+            } else {
                 value = Number(document.getElementById("queen-score-black")!.innerText);
                 value++;
                 document.getElementById("queen-score-black")!.innerText = String(value);

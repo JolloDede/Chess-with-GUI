@@ -10,6 +10,8 @@
 
 body {
     background-color: #6B5138;
+    background-image: url("../assets/Wood_Background.jpg");
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 main{
@@ -30,11 +32,8 @@ button:focus {
 }
 
 .container {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
+    /* position: absolute; */
+    margin: 0;
 }
 
 header{
@@ -65,7 +64,7 @@ header h1{
     margin-right: auto;
     left: 0;
     right: 0;
-    top: 20%;
+    top: 40%;
 }
 
 #username {
@@ -121,10 +120,9 @@ input[name="color"] {
 
 /* Game */
 
-.game-wrapper {
-    background-image: url("../assets/Wood_Background.jpg");
+/* .game-wrapper {
     background-color: brown;
-}
+} */
 
 .canvas-container {
     text-align: center;
@@ -202,16 +200,15 @@ input[name="color"] {
 /* Score Board */
 
 .game-sitepanel {
+    position: absolute;
     text-align: left;
-    background-color: #CE6D0C;
-    margin-left: auto;
-    margin-right: auto;
+    background-color: rgba(206, 109, 12, 0.459);
+    padding: 20px;
     top: 100px;
     right: 0;
-    height: 100%;
-    width: 15%;
+    height: auto;
+    width: calc(20% - 40px);
     float: right;
-    position: fixed;
 }
 
 .score-black-wrapper{
@@ -232,12 +229,34 @@ input[name="color"] {
 }
 
 th {
-    border: 1px solid black;
-
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 td > img{
     width: 40px;
 }
 
+hr {
+    border-color: black;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
 /* End Score Board */
+/* Gamelog */
+#game-log {
+    position: absolute;
+    text-align: left;
+    background-color: rgba(206, 109, 12, 0.459);
+    padding: 20px;
+    top: 100px;
+    left: 0;
+    height: 100%;
+    width: calc(20% - 40px);
+    float: right;
+}
+
+#game-log-text {
+
+}
+/* End of Gamelog */

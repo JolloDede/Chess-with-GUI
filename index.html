@@ -46,9 +46,9 @@
                             <button id="start">Start</button>
                         </div>
                         <div id="game-button-wrapper">
-                            <i class="fas fa-angle-left" id="back"></i>
-                            <i class="fas fa-angle-right" id="advance"></i>
-                            <i class="fas fa-volume-up" id="sound"></i>
+                            <i class="fas fa-angle-left" id="back">back</i>
+                            <i class="fas fa-angle-right" id="advance">advance</i>
+                            <i class="fas fa-volume-up" id="sound">sound</i>
                         </div>
                         <canvas id="my-canvas" width="640" height="640">
                             <p>Canvas not supported</p>
@@ -64,93 +64,97 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="game-sitepanel">
-            <div class="score-wrapper">
-                <h2>Score</h2>
-                <div class="score-white-wrapper">
-                    <p class="inline">White:</p>
-                    <span class="score-number" id="score-white">0</span>
-                    <table id="captured-black-pieces">
-                        <thead>
-                            <tr>
-                                <th>Amount</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td id="pawn-score-white">0</td>
-                                <td> <img src="assets\2000px-Chess_Pieces_Sprite_06.png" alt="Pawn"> </td>
-                                <td>Pawn</td>
-                            </tr>
-                            <tr>
-                                <td id="bishop-score-white">0</td>
-                                <td> <img src="assets\2000px-Chess_Pieces_Sprite_03.png" alt="Bishop"> </td>
-                                <td>Bishop</td>
-                            </tr>
-                            <tr>
-                                <td id="knigth-score-white">0</td>
-                                <td> <img src="assets\2000px-Chess_Pieces_Sprite_04.png" alt="Knigth"> </td>
-                                <td>Knigth</td>
-                            </tr>
-                            <tr>
-                                <td id="rook-score-white">0</td>
-                                <td> <img src="assets\2000px-Chess_Pieces_Sprite_05.png" alt="Rook"> </td>
-                                <td>Rook</td>
-                            </tr>
-                            <tr>
-                                <td id="queen-score-white">0</td>
-                                <td> <img src="assets\2000px-Chess_Pieces_Sprite_02.png" alt="Queen"> </td>
-                                <td>Queen</td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <div class="game-sitepanel">
+                <div class="score-wrapper">
+                    <h2>Score</h2>
+                    <div class="score-white-wrapper">
+                        <p class="inline">White:</p>
+                        <span class="score-number" id="score-white">0</span>
+                        <table id="captured-black-pieces">
+                            <thead>
+                                <tr>
+                                    <th>Amount</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="pawn-score-white">0</td>
+                                    <td> <img src="assets\2000px-Chess_Pieces_Sprite_06.png" alt="Pawn"> </td>
+                                    <td>Pawn</td>
+                                </tr>
+                                <tr>
+                                    <td id="bishop-score-white">0</td>
+                                    <td> <img src="assets\2000px-Chess_Pieces_Sprite_03.png" alt="Bishop"> </td>
+                                    <td>Bishop</td>
+                                </tr>
+                                <tr>
+                                    <td id="knigth-score-white">0</td>
+                                    <td> <img src="assets\2000px-Chess_Pieces_Sprite_04.png" alt="Knigth"> </td>
+                                    <td>Knigth</td>
+                                </tr>
+                                <tr>
+                                    <td id="rook-score-white">0</td>
+                                    <td> <img src="assets\2000px-Chess_Pieces_Sprite_05.png" alt="Rook"> </td>
+                                    <td>Rook</td>
+                                </tr>
+                                <tr>
+                                    <td id="queen-score-white">0</td>
+                                    <td> <img src="assets\2000px-Chess_Pieces_Sprite_02.png" alt="Queen"> </td>
+                                    <td>Queen</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <hr>
+                    <div class="score-black-wrapper">
+                        <p class="inline">Black:</p>
+                        <span class="score-number" id="score-black">0</span>
+                        <table id="captured-white-pieces">
+                            <thead>
+                                <tr>
+                                    <th>Amount</th>
+                                    <th>Image</th>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td id="pawn-score-black">0</td>
+                                    <td> <img src="assets\2000px-Chess_Pieces_Sprite_12.png" alt="Pawn"> </td>
+                                    <td>Pawn</td>
+                                </tr>
+                                <tr>
+                                    <td id="bishop-score-black">0</td>
+                                    <td> <img src="assets\2000px-Chess_Pieces_Sprite_09.png" alt="Bishop"> </td>
+                                    <td>Bishop</td>
+                                </tr>
+                                <tr>
+                                    <td id="knigth-score-black">0</td>
+                                    <td> <img src="assets\2000px-Chess_Pieces_Sprite_10.png" alt="Knigth"> </td>
+                                    <td>Knigth</td>
+                                </tr>
+                                <tr>
+                                    <td id="rook-score-black">0</td>
+                                    <td> <img src="assets\2000px-Chess_Pieces_Sprite_11.png" alt="Rook"> </td>
+                                    <td>Rook</td>
+                                </tr>
+                                <tr>
+                                    <td id="queen-score-black">0</td>
+                                    <td> <img src="assets\2000px-Chess_Pieces_Sprite_08.png" alt="Queen"> </td>
+                                    <td>Queen</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-
-                <div class="score-black-wrapper">
-                    <p class="inline">Black:</p>
-                    <span class="score-number" id="score-black">0</span>
-                    <table id="captured-white-pieces">
-                        <thead>
-                            <tr>
-                                <th>Amount</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td id="pawn-score-black">0</td>
-                                <td> <img src="assets\2000px-Chess_Pieces_Sprite_12.png" alt="Pawn"> </td>
-                                <td>Pawn</td>
-                            </tr>
-                            <tr>
-                                <td id="bishop-score-black">0</td>
-                                <td> <img src="assets\2000px-Chess_Pieces_Sprite_09.png" alt="Bishop"> </td>
-                                <td>Bishop</td>
-                            </tr>
-                            <tr>
-                                <td id="knigth-score-black">0</td>
-                                <td> <img src="assets\2000px-Chess_Pieces_Sprite_10.png" alt="Knigth"> </td>
-                                <td>Knigth</td>
-                            </tr>
-                            <tr>
-                                <td id="rook-score-black">0</td>
-                                <td> <img src="assets\2000px-Chess_Pieces_Sprite_11.png" alt="Rook"> </td>
-                                <td>Rook</td>
-                            </tr>
-                            <tr>
-                                <td id="queen-score-black">0</td>
-                                <td> <img src="assets\2000px-Chess_Pieces_Sprite_08.png" alt="Queen"> </td>
-                                <td>Queen</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
+            </div>
+            <div id="game-log">
+                <h2>Gamelog</h2>
+                <p id="game-log-p">Hallo</p>
+                <textarea name="game-log-text" id="game-log-text" cols="30" rows="10"></textarea>
             </div>
         </div>
     </main>

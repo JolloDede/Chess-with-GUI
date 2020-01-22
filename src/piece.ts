@@ -90,7 +90,7 @@ export abstract class Piece {
 
     setNewLocation(x: number, y: number) {
         this.matrixPosition = createVector(x, y);
-        this.pixelPositon = createVector(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2 + 10);
+        this.pixelPositon = createVector(x * tileSize, y * tileSize);
     }
 
     abstract generateMoves(board: Board): IVector[];
