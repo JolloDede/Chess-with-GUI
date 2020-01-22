@@ -63,9 +63,9 @@ function canvasClick() {
                     app.getGame().countPiecesDefeated(piece.kind, piece.white);
                 }
                 movingPiece.move(x, y, board);
-                // console.log(AI.getBoardAbsoluteValue(board.blackPieces, board.whitePieces));
                 board.kingUnderAttack(board.whitePieces[0] as King);
                 board.kingUnderAttack(board.blackPieces[0] as King);
+                AI.decideMove();
                 AI.makeMove();
                 board.showScore();
             }

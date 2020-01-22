@@ -1,5 +1,6 @@
 import { Board } from "./board";
 import Game from "./game";
+import { Piece } from "./piece";
 
 export var board: Board;
 export var images: HTMLImageElement[] = [];
@@ -34,7 +35,8 @@ export class App {
 }
 
 function loadImage(src: string): HTMLImageElement {
-    var image: HTMLImageElement;
+    let image: HTMLImageElement;
+    
     image = new Image();
     image.src = src;
     return image;
@@ -47,4 +49,9 @@ export interface IVector {
 
 export function createVector(x: number, y: number) {
     return { x: x, y: y } as IVector
+}
+
+export interface IMove {
+    from: IVector;
+    to: IVector;
 }

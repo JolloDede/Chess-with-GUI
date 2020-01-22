@@ -1,6 +1,6 @@
 import { Board } from "./board";
 import { Piece } from "./piece";
-import { IVector } from "./main";
+import { IVector, IMove } from "./main";
 
 class MyNode {
     value: number;
@@ -35,7 +35,9 @@ export abstract class AI {
         }
     }
 
-    public makeMove(): void { }
+    abstract decideMove(): IMove;
+
+    abstract makeMove(from: IVector, to: IVector): void;
 }
 
 export class RandomAI extends AI {
@@ -44,31 +46,28 @@ export class RandomAI extends AI {
         super(board, whitePieces);
     }
 
-    makeMove(): void {
-        let piecesP = this.pieces;
-        let moves = [];
-        this.pieces = [];
-        for (var i = 0; i < piecesP.length; i++) {
-            if (!piecesP[i].taken) {
-                this.pieces.push(piecesP[i]);
+    makeMove(from: IVector, to: IVector): void {
+        let piece: Piece;
+
+        piece = this.board.getPieceAt(from.x, from.y);
+        piece.move(to.x, to.y, this.board);
+    }
+
+    decideMove(): IMove {
+        let moves: IVector[];
+        let pieceNum: number;
+        let moveNum: number;
+
+        while (true) {
+            pieceNum = Math.floor(Math.random() * this.pieces.length);
+            if (!this.pieces[pieceNum].taken) {
+                break;
             }
         }
-        for (var i = 0; i < this.pieces.length; i++) {
-            moves = this.pieces[i].generateMoves(this.board);
-            for (var j = 0; j < moves.length; j++) {
-                if (this.board.pieceAt(moves[j].x, moves[j].y) && this.board.getPieceAt(moves[j].x, moves[j].y).white != this.pieces[i].white) {
-                    this.pieces[i].move(moves[j].x, moves[j].y, this.board);
-                    return;
-                }
-            }
-        }
-        do {
-            var p = Math.floor((Math.random() * this.pieces.length) + 0);
-            var piece = this.pieces[p];
-            moves = piece.generateMoves(this.board);
-        } while (moves.length < 1);
-        var m = Math.floor((Math.random() * moves.length) + 0);
-        piece.move(moves[m].x, moves[m].y, this.board);
+        moves = this.pieces[pieceNum].generateMoves(this.board);
+        moveNum = Math.floor(Math.random() * moves.length);
+
+        return { from: this.pieces[pieceNum].matrixPosition, to: moves[moveNum] } as IMove;
     }
 
 }
@@ -206,7 +205,7 @@ export class MinimaxAI extends AI {
         }
         return value;
     }
-// Stack für Nodes merken
+    // Stack für Nodes merken
     private createNewBoardsWithMovesRecursiv(board: Board, boards: Board[], depth: number): void {
         let moves: IVector[] = [];
         let pieces: Piece[];
@@ -258,24 +257,23 @@ export class MinimaxAI extends AI {
         console.log(boards.length + " " + this.Nodes.length);
         console.log(this.minimax(this.Nodes[0], 3, true), this.Nodes[0].value);
         bestMoveIndex = this.getChildNodeIndexWithValue(this.Nodes[0]);
-        this.vergleichen(boards[bestMoveIndex])
+        this.vergleichen(boards[bestMoveIndex]);
         this.board.adjustBoards(boards[bestMoveIndex]);
     }
 
-    vergleichen(board: Board){
+    vergleichen(board: Board) {
         let error: number = 0;
         for (let i = 0; i < 8; i++) {
-            if ((this.board.whitePieces[i].matrixPosition.x != board.whitePieces[i].matrixPosition.x) 
-            || (this.board.whitePieces[i].matrixPosition.y != board.whitePieces[i].matrixPosition.y)){
+            if ((this.board.whitePieces[i].matrixPosition.x != board.whitePieces[i].matrixPosition.x)
+                || (this.board.whitePieces[i].matrixPosition.y != board.whitePieces[i].matrixPosition.y)) {
                 error++;
             }
-            if ((this.board.blackPieces[i].matrixPosition.x != board.blackPieces[i].matrixPosition.x) 
-            || (this.board.blackPieces[i].matrixPosition.y != board.blackPieces[i].matrixPosition.y)){
+            if ((this.board.blackPieces[i].matrixPosition.x != board.blackPieces[i].matrixPosition.x)
+                || (this.board.blackPieces[i].matrixPosition.y != board.blackPieces[i].matrixPosition.y)) {
                 error++;
             }
         }
-        console.log("Error board vergleich: "+error);
-        
+        console.log("Error board vergleich: " + error);
     }
 
     minimax(position: MyNode, depth: number, maximizingPlayer: boolean): number {
@@ -310,6 +308,34 @@ export class MinimaxAI extends AI {
         }
         console.log("Error getChildNodeIndexWithValue");
         return 0;
+    }
+
+    decideMove(): IMove {
+        let boards: Board[] = [];
+        this.Nodes = [];
+        let bestMoveIndex: number;
+        var RootNodeindex: number;
+        var BranchNodeindex: number;
+        var secondBranchNodeindex: number;
+
+        boards.push(this.board);
+        this.Nodes.push(new MyNode());
+        this.createNewBoardsWithMovesRecursiv(this.board, boards, 0);
+        console.log(boards.length + " " + this.Nodes.length);
+        console.log(this.minimax(this.Nodes[0], 3, true), this.Nodes[0].value);
+        bestMoveIndex = this.getChildNodeIndexWithValue(this.Nodes[0]);
+
+    }
+
+    boardVergleichPosOff(destBoard: Board): IVector {
+        for (let i: number = 0; i < 16; i++) {
+            if (this.pieces[0].white){
+                destBoard.whitePieces
+            }else{
+                destBoard.blackPieces
+            }
+        }
+        return { x: 1, y: 2 } as IVector;
     }
 
 }
