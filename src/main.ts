@@ -27,6 +27,10 @@ export class App {
         requestAnimationFrame(this.gameLoop.bind(this));
         this._game.render();
     }
+
+    public getGame(): Game{
+        return this._game;
+    }
 }
 
 function loadImage(src: string): HTMLImageElement {

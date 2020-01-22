@@ -18,6 +18,14 @@ main{
     text-align: center;
 }
 
+footer {
+    display: block;
+    bottom: 0;
+    height: 40px;
+    width: 100%;
+    background-color: #6B5138;
+}
+
 button {
     border-color: black;
     font-weight: bold;
@@ -32,7 +40,6 @@ button:focus {
 }
 
 .container {
-    /* position: absolute; */
     margin: 0;
 }
 
@@ -48,6 +55,29 @@ header h1{
     margin: 0;
     margin-left: auto;
     margin-right: auto;
+}
+
+#left-panel {
+    position: absolute;
+    background-color: rgba(206, 109, 12, 0.459);
+    padding: 20px;
+    top: 100px;
+    left: 0;
+    height: 100%;
+    width: calc(20% - 40px);
+    float: right;
+}
+
+#right-panel {
+    position: absolute;
+    text-align: center;
+    background-color: rgba(206, 109, 12, 0.459);
+    padding: 20px;
+    top: 100px;
+    right: 0;
+    height: 100%;
+    width: calc(20% - 40px);
+    float: right;
 }
 
 /* Overlay for the Game */
@@ -120,9 +150,9 @@ input[name="color"] {
 
 /* Game */
 
-/* .game-wrapper {
-    background-color: brown;
-} */
+.game-wrapper {
+    display: inline;
+}
 
 .canvas-container {
     text-align: center;
@@ -199,18 +229,6 @@ input[name="color"] {
 
 /* Score Board */
 
-.game-sitepanel {
-    position: absolute;
-    text-align: left;
-    background-color: rgba(206, 109, 12, 0.459);
-    padding: 20px;
-    top: 100px;
-    right: 0;
-    height: auto;
-    width: calc(20% - 40px);
-    float: right;
-}
-
 .score-black-wrapper{
     margin-top: 10px;
 }
@@ -228,10 +246,10 @@ input[name="color"] {
     margin-right: 10px;
 }
 
-th {
+/* th {
     padding-left: 10px;
     padding-right: 10px;
-}
+} */
 
 td > img{
     width: 40px;
@@ -244,7 +262,8 @@ hr {
 }
 /* End Score Board */
 /* Gamelog */
-#game-log {
+
+/* #game-log {
     position: absolute;
     text-align: left;
     background-color: rgba(206, 109, 12, 0.459);
@@ -254,9 +273,29 @@ hr {
     height: 100%;
     width: calc(20% - 40px);
     float: right;
-}
+} */
 
 #game-log-text {
-
+    width: 100%;
+    height: 40%;
+    resize: none;
 }
 /* End of Gamelog */
+/* Introduction */
+
+#introcution-content{
+    display: none;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: left;
+}
+
+.intro-img {
+    width: 20%;
+    float: left;
+}
+
+/* End Introduction */

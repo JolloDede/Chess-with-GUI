@@ -36,8 +36,23 @@ export default class Game {
                 }
             }
         }
+        this.drawCoordinates();
+    }
+
+    private drawCoordinates(){
         this.ctx.beginPath();
-        this.ctx.strokeRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
+        this.ctx.font = "20px Arial"
+        this.ctx.strokeStyle = "white";
+        this.ctx.fillStyle = "black";
+        for(let i: number = 0; i < 8; i++){
+            if(i%2 == 0){
+                this.ctx.fillText(String(8-i), 5, i*tileSize+20);
+                this.ctx.fillText(String.fromCharCode(64+i), i*tileSize-20, tileSize*8-10);    
+            }else{
+                this.ctx.strokeText(String(8-i), 5, i*tileSize+20);
+                this.ctx.strokeText(String.fromCharCode(64+i), i*tileSize-20, tileSize*8-10);   
+            }
+        }
     }
 
     private showMovesMovingPiece(){
@@ -130,6 +145,72 @@ export default class Game {
             this.ctx.drawImage(images[imagePos], board.blackPieces[i].pixelPositon.x,
                 board.blackPieces[i].pixelPositon.y,
                 tileSize, tileSize);
+            }
+        }
+    }
+
+    public countPiecesDefeated(type: string, white: boolean) {
+        let value: number;
+        switch (type) {
+            case "Pawn": {
+                if (white) {
+                    value = Number(document.getElementById("pawn-score-white")!.innerText);
+                    value++;
+                    document.getElementById("pawn-score-white")!.innerText = String(value);
+                } else {
+                    value = Number(document.getElementById("pawn-score-black")!.innerText);
+                    value++;
+                    document.getElementById("pawn-score-black")!.innerText = String(value);
+                }
+                break;
+            }
+            case "Bishop": {
+                if (white) {
+                    value = Number(document.getElementById("bishop-score-white")!.innerText);
+                    value++;
+                    document.getElementById("bishop-score-white")!.innerText = String(value);
+                } else {
+                    value = Number(document.getElementById("bishop-score-black")!.innerText);
+                    value++;
+                    document.getElementById("bishop-score-black")!.innerText = String(value);
+                }
+                break;
+            }
+            case "Knigth": {
+                if (white) {
+                    value = Number(document.getElementById("knigth-score-white")!.innerText);
+                    value++;
+                    document.getElementById("knigth-score-white")!.innerText = String(value);
+                } else {
+                    value = Number(document.getElementById("knigth-score-black")!.innerText);
+                    value++;
+                    document.getElementById("knigth-score-black")!.innerText = String(value);
+                }
+                break;
+            }
+            case "Rook": {
+                if (white) {
+                    value = Number(document.getElementById("rook-score-white")!.innerText);
+                    value++;
+                    document.getElementById("rook-score-white")!.innerText = String(value);
+                } else {
+                    value = Number(document.getElementById("rook-score-black")!.innerText);
+                    value++;
+                    document.getElementById("rook-score-black")!.innerText = String(value);
+                }
+                break;
+            }
+            case "Queen": {
+                if (white) {
+                    value = Number(document.getElementById("queen-score-white")!.innerText);
+                    value++;
+                    document.getElementById("queen-score-white")!.innerText = String(value);
+                } else {
+                    value = Number(document.getElementById("queen-score-black")!.innerText);
+                    value++;
+                    document.getElementById("queen-score-black")!.innerText = String(value);
+                }
+                break;
             }
         }
     }

@@ -1,7 +1,6 @@
 import { IVector, createVector } from "./main";
 import { Board } from "./board";
 import { tileSize } from "./game";
-import { countPiecesDefeated } from "./click";
 
 export abstract class Piece {
     matrixPosition: IVector;
@@ -33,7 +32,6 @@ export abstract class Piece {
         if (board.pieceAt(x, y)) {
             var attacking = board.getPieceAt(x, y);
             if (attacking != null) {
-                countPiecesDefeated(attacking.kind, attacking.white);
                 attacking.taken = true;
             }
         }
