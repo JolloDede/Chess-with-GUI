@@ -9,6 +9,7 @@
 }
 
 body {
+    height: 100%;
     background-color: #6B5138;
     background-image: url("../assets/Wood_Background.jpg");
     font-family: Arial, Helvetica, sans-serif;
@@ -16,6 +17,7 @@ body {
 
 main{
     text-align: center;
+    height: fit-content;
 }
 
 footer {
@@ -58,18 +60,15 @@ header h1{
 }
 
 #left-panel {
-    position: absolute;
     background-color: rgba(206, 109, 12, 0.459);
     padding: 20px;
-    top: 100px;
     left: 0;
-    height: 100%;
     width: calc(20% - 40px);
-    float: right;
+    float: left;
+    display: relatic;
 }
 
 #right-panel {
-    position: absolute;
     text-align: center;
     background-color: rgba(206, 109, 12, 0.459);
     padding: 20px;
@@ -94,7 +93,7 @@ header h1{
     margin-right: auto;
     left: 0;
     right: 0;
-    top: 30%;
+    top: 20%;
 }
 
 #username {
@@ -150,6 +149,11 @@ input[name="color"] {
 
 /* Game */
 
+#game-content {
+    display: inline-block;
+    position: relative;
+}
+
 .game-wrapper {
     display: inline;
 }
@@ -164,20 +168,12 @@ input[name="color"] {
     border-radius: 20px;
     width: 600px;
     height: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
 }
 
 #game-button-wrapper {
     width: 640px;
     height: 10px;
-    margin-left: auto;
     margin-bottom: 10px;
-    margin-right: auto;
-    left: 0;
-    right: 0;
 }
 
 #back {

@@ -61,10 +61,12 @@ export class RandomAI extends AI {
         while (true) {
             pieceNum = Math.floor(Math.random() * this.pieces.length);
             if (!this.pieces[pieceNum].taken) {
-                break;
+                moves = this.pieces[pieceNum].generateMoves(this.board);
+                if (moves.length != 0){
+                    break;
+                }
             }
         }
-        moves = this.pieces[pieceNum].generateMoves(this.board);
         moveNum = Math.floor(Math.random() * moves.length);
 
         return { from: this.pieces[pieceNum].matrixPosition, to: moves[moveNum] } as IMove;
@@ -329,12 +331,12 @@ export class MinimaxAI extends AI {
 
     boardComparePosOff(destBoard: Board): IMove {
         for (let i: number = 0; i < 16; i++) {
-            if (this.pieces[0].white){
-                if (this.pieces[i].matrixPosition.x != destBoard.whitePieces[i].matrixPosition.x || this.pieces[i].matrixPosition.y != destBoard.whitePieces[i].matrixPosition.y){
+            if (this.pieces[0].white) {
+                if (this.pieces[i].matrixPosition.x != destBoard.whitePieces[i].matrixPosition.x || this.pieces[i].matrixPosition.y != destBoard.whitePieces[i].matrixPosition.y) {
                     return { from: this.pieces[i].matrixPosition, to: destBoard.whitePieces[i].matrixPosition } as IMove;
                 }
-            }else{
-                if (this.pieces[i].matrixPosition.x != destBoard.blackPieces[i].matrixPosition.x || this.pieces[i].matrixPosition.y != destBoard.blackPieces[i].matrixPosition.y){
+            } else {
+                if (this.pieces[i].matrixPosition.x != destBoard.blackPieces[i].matrixPosition.x || this.pieces[i].matrixPosition.y != destBoard.blackPieces[i].matrixPosition.y) {
                     return { from: this.pieces[i].matrixPosition, to: destBoard.blackPieces[i].matrixPosition } as IMove;
                 }
             }

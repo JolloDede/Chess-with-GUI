@@ -439,7 +439,7 @@ export class Bishop extends Piece {
 
 export class Knigth extends Piece {
     constructor(x: number, y: number, isWhite: boolean) {
-        super(x, y, isWhite, "Kn");
+        super(x, y, isWhite, "N");
         // if (isWhite) {
         //     this.pic = Knigth.images[3];
         // } else {
@@ -505,7 +505,7 @@ export class Knigth extends Piece {
 export class Pawn extends Piece {
     firstTurn: boolean;
     constructor(x: number, y: number, isWhite: boolean) {
-        super(x, y, isWhite, "p");
+        super(x, y, isWhite, "P");
         this.firstTurn = true;
         // if (isWhite) {
         //     this.pic = Pawn.images[5];
