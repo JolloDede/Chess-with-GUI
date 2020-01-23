@@ -1,7 +1,6 @@
 import { IVector, createVector } from "./main";
 import { Board } from "./board";
 import { tileSize } from "./game";
-import { countPiecesDefeated } from "./click";
 
 export abstract class Piece {
     matrixPosition: IVector;
@@ -33,7 +32,6 @@ export abstract class Piece {
         if (board.pieceAt(x, y)) {
             var attacking = board.getPieceAt(x, y);
             if (attacking != null) {
-                countPiecesDefeated(attacking.kind, attacking.white);
                 attacking.taken = true;
             }
         }
@@ -90,7 +88,7 @@ export abstract class Piece {
 
     setNewLocation(x: number, y: number) {
         this.matrixPosition = createVector(x, y);
-        this.pixelPositon = createVector(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2 + 10);
+        this.pixelPositon = createVector(x * tileSize, y * tileSize);
     }
 
     abstract generateMoves(board: Board): IVector[];
@@ -441,7 +439,7 @@ export class Bishop extends Piece {
 
 export class Knigth extends Piece {
     constructor(x: number, y: number, isWhite: boolean) {
-        super(x, y, isWhite, "Kn");
+        super(x, y, isWhite, "N");
         // if (isWhite) {
         //     this.pic = Knigth.images[3];
         // } else {
@@ -507,7 +505,7 @@ export class Knigth extends Piece {
 export class Pawn extends Piece {
     firstTurn: boolean;
     constructor(x: number, y: number, isWhite: boolean) {
-        super(x, y, isWhite, "p");
+        super(x, y, isWhite, "P");
         this.firstTurn = true;
         // if (isWhite) {
         //     this.pic = Pawn.images[5];

@@ -1,4 +1,4 @@
-import { App, board } from "./main";
+import { App, board, IMove } from "./main";
 import Game, { tileSize } from "./game";
 import { Piece, King } from "./piece";
 import { RandomAI, MinimaxAI } from "./AI";
@@ -8,7 +8,11 @@ document.getElementById("advance")!.onclick = function () { advanceButtonClick()
 var soundElement: HTMLLinkElement = document.getElementById("sound") as HTMLLinkElement;
 soundElement.onclick = function () { soundButtonClick() }
 document.getElementById("start")!.onclick = function () { startButtonClick() }
+
 document.getElementById("new-game")!.onclick = function () { newGameButtonClick() }
+document.getElementById("introduction")!.onclick = function () { introductionButtonCLick() }
+
+window.onkeydown = function (event: KeyboardEvent) { enterClick(event)}
 
 export var canvas: HTMLCanvasElement;
 canvas = document.getElementById("my-canvas") as HTMLCanvasElement;
@@ -22,10 +26,22 @@ export var movingPiece: Piece;
 var AI: RandomAI | MinimaxAI;
 
 var color: string;
+var app: App;
+
+
+function enterClick(event: KeyboardEvent){
+    if (event.keyCode == 13) {
+        if (document.getElementById("canvas-overlay-container")!.style.display != "none"){
+            startButtonClick();
+        }
+    }
+}
 
 function canvasClick() {
     let x: number;
     let y: number;
+    let piece: Piece;
+    let move: IMove;
 
     x = Math.floor(mouseX / tileSize);
     y = Math.floor(mouseY / tileSize);
@@ -33,9 +49,9 @@ function canvasClick() {
         if (!moving) {
             if (board.pieceAt(x, y)) {
                 movingPiece = board.getPieceAt(x, y);
-                if ((movingPiece.white && color == "white") || (!movingPiece.white && color == "black")){
+                if ((movingPiece.white && color == "white") || (!movingPiece.white && color == "black")) {
                     movingPiece.movingThisPiece = true;
-                }else{
+                } else {
                     return;
                 }
             } else {
@@ -43,11 +59,21 @@ function canvasClick() {
             }
         } else {
             if (movingPiece.canMove(x, y, board)) {
+                if (board.pieceAt(x,y)){
+                    piece = board.getPieceAt(x,y);
+                    app.getGame().countPiecesDefeated(piece.kind, piece.white);
+                }
+                app.getGame().gameLog(movingPiece, { x: x, y: y });
                 movingPiece.move(x, y, board);
-                // console.log(AI.getBoardAbsoluteValue(board.blackPieces, board.whitePieces));
                 board.kingUnderAttack(board.whitePieces[0] as King);
                 board.kingUnderAttack(board.blackPieces[0] as King);
-                AI.makeMove();
+                move = AI.decideMove();
+                app.getGame().gameLog(board.getPieceAt(move.from.x, move.from.y), move.to);
+                if (board.pieceAt(move.to.x,move.to.y)){
+                    piece = board.getPieceAt(move.to.x,move.to.y);
+                    app.getGame().countPiecesDefeated(piece.kind, piece.white);
+                }
+                AI.makeMove(move.from, move.to);
                 board.showScore();
             }
             movingPiece.movingThisPiece = false;
@@ -65,13 +91,13 @@ function advanceButtonClick() {
 
 }
 
-function soundButtonClick(){
+function soundButtonClick() {
     for (let i = 0; i < soundElement.classList.length; i++) {
-        if (soundElement.classList[i] == "fa-volume-up"){
+        if (soundElement.classList[i] == "fa-volume-up") {
             soundElement.classList.remove("fa-volume-up");
             soundElement.classList.add("fa-volume-mute");
             break;
-        }else if (soundElement.classList[i] == "fa-volume-mute"){
+        } else if (soundElement.classList[i] == "fa-volume-mute") {
             soundElement.classList.remove("fa-volume-mute");
             soundElement.classList.add("fa-volume-up");
             break;
@@ -80,7 +106,7 @@ function soundButtonClick(){
 }
 
 function startButtonClick() {
-    let app: App = new App(new Game());
+    app = new App(new Game());
     let el: HTMLSelectElement;
     let ai: string;
     let rEl: any;
@@ -88,10 +114,10 @@ function startButtonClick() {
     let name: string;
 
     name = (document.getElementById("username")! as HTMLInputElement).value;
-    if (name == ""){
+    if (name == "") {
         document.getElementById("error-noname")!.style.display = "block";
         return;
-    }else{
+    } else {
         document.getElementById("error-noname")!.style.display = "none";
     }
 
@@ -104,17 +130,17 @@ function startButtonClick() {
     rEl = document.getElementsByName("color");
     if (rEl[0].checked) {
         color = rEl[0].value as string;
-    }else{
+    } else {
         color = rEl[1].value as string;
     }
     app.setup();
     switch (ai) {
         case "Random": {
-            AI = new RandomAI(board, color == "white"? false: true);
+            AI = new RandomAI(board, color == "white" ? false : true);
             break;
         }
         case "MiniMax": {
-            AI = new MinimaxAI(board, color == "white"? false: true);
+            AI = new MinimaxAI(board, color == "white" ? false : true);
             break;
         }
     }
@@ -139,68 +165,9 @@ function newGameButtonClick() {
     coc.style.display = "initial";
 }
 
-export function countPiecesDefeated(type: string, white: boolean){
-    let value: number;
-    switch(type){
-        case "Pawn": {
-            if (white){
-                value = Number(document.getElementById("pawn-score-white")!.innerText);
-                value++;
-                document.getElementById("pawn-score-white")!.innerText = String(value);
-            }else{
-                value = Number(document.getElementById("pawn-score-black")!.innerText);
-                value++;
-                document.getElementById("pawn-score-black")!.innerText = String(value);
-            }
-            break;
-        }
-        case "Bishop": {
-            if (white){
-                value = Number(document.getElementById("bishop-score-white")!.innerText);
-                value++;
-                document.getElementById("bishop-score-white")!.innerText = String(value);
-            }else{
-                value = Number(document.getElementById("bishop-score-black")!.innerText);
-                value++;
-                document.getElementById("bishop-score-black")!.innerText = String(value);
-            }
-            break;
-        }
-        case "Knigth": {
-            if (white){
-                value = Number(document.getElementById("knigth-score-white")!.innerText);
-                value++;
-                document.getElementById("knigth-score-white")!.innerText = String(value);
-            }else{
-                value = Number(document.getElementById("knigth-score-black")!.innerText);
-                value++;
-                document.getElementById("knigth-score-black")!.innerText = String(value);
-            }
-            break;
-        }
-        case "Rook": {
-            if (white){
-                value = Number(document.getElementById("rook-score-white")!.innerText);
-                value++;
-                document.getElementById("rook-score-white")!.innerText = String(value);
-            }else{
-                value = Number(document.getElementById("rook-score-black")!.innerText);
-                value++;
-                document.getElementById("rook-score-black")!.innerText = String(value);
-            }
-            break;
-        }
-        case "Queen": {
-            if (white){
-                value = Number(document.getElementById("queen-score-white")!.innerText);
-                value++;
-                document.getElementById("queen-score-white")!.innerText = String(value);
-            }else{
-                value = Number(document.getElementById("queen-score-black")!.innerText);
-                value++;
-                document.getElementById("queen-score-black")!.innerText = String(value);
-            }
-            break;
-        }
-    }
+function introductionButtonCLick(){
+    document.getElementById("game-sitepanel")!.style.display = "none";
+    document.getElementById("game-log")!.style.display = "none";
+    document.getElementById("game-content")!.style.display = "none";
+    document.getElementById("introcution-content")!.style.display = "block";
 }

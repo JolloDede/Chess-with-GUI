@@ -9,11 +9,23 @@
 }
 
 body {
+    height: 100%;
     background-color: #6B5138;
+    background-image: url("../assets/Wood_Background.jpg");
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 main{
     text-align: center;
+    height: fit-content;
+}
+
+footer {
+    display: block;
+    bottom: 0;
+    height: 40px;
+    width: 100%;
+    background-color: #6B5138;
 }
 
 button {
@@ -30,11 +42,7 @@ button:focus {
 }
 
 .container {
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
+    margin: 0;
 }
 
 header{
@@ -49,6 +57,26 @@ header h1{
     margin: 0;
     margin-left: auto;
     margin-right: auto;
+}
+
+#left-panel {
+    background-color: rgba(206, 109, 12, 0.459);
+    padding: 20px;
+    left: 0;
+    width: calc(20% - 40px);
+    float: left;
+    display: relatic;
+}
+
+#right-panel {
+    text-align: center;
+    background-color: rgba(206, 109, 12, 0.459);
+    padding: 20px;
+    top: 100px;
+    right: 0;
+    height: 100%;
+    width: calc(20% - 40px);
+    float: right;
 }
 
 /* Overlay for the Game */
@@ -121,9 +149,13 @@ input[name="color"] {
 
 /* Game */
 
+#game-content {
+    display: inline-block;
+    position: relative;
+}
+
 .game-wrapper {
-    background-image: url("../assets/Wood_Background.jpg");
-    background-color: brown;
+    display: inline;
 }
 
 .canvas-container {
@@ -136,20 +168,12 @@ input[name="color"] {
     border-radius: 20px;
     width: 600px;
     height: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    left: 0;
-    right: 0;
 }
 
 #game-button-wrapper {
     width: 640px;
     height: 10px;
-    margin-left: auto;
     margin-bottom: 10px;
-    margin-right: auto;
-    left: 0;
-    right: 0;
 }
 
 #back {
@@ -201,19 +225,6 @@ input[name="color"] {
 
 /* Score Board */
 
-.game-sitepanel {
-    text-align: left;
-    background-color: #CE6D0C;
-    margin-left: auto;
-    margin-right: auto;
-    top: 100px;
-    right: 0;
-    height: 100%;
-    width: 15%;
-    float: right;
-    position: fixed;
-}
-
 .score-black-wrapper{
     margin-top: 10px;
 }
@@ -231,13 +242,56 @@ input[name="color"] {
     margin-right: 10px;
 }
 
-th {
-    border: 1px solid black;
-
-}
+/* th {
+    padding-left: 10px;
+    padding-right: 10px;
+} */
 
 td > img{
     width: 40px;
 }
 
+hr {
+    border-color: black;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
 /* End Score Board */
+/* Gamelog */
+
+/* #game-log {
+    position: absolute;
+    text-align: left;
+    background-color: rgba(206, 109, 12, 0.459);
+    padding: 20px;
+    top: 100px;
+    left: 0;
+    height: 100%;
+    width: calc(20% - 40px);
+    float: right;
+} */
+
+#game-log-text {
+    width: 100%;
+    height: 40%;
+    resize: none;
+}
+/* End of Gamelog */
+/* Introduction */
+
+#introcution-content{
+    display: none;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: left;
+}
+
+.intro-img {
+    width: 20%;
+    float: left;
+}
+
+/* End Introduction */
