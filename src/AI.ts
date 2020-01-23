@@ -62,7 +62,7 @@ export class RandomAI extends AI {
             pieceNum = Math.floor(Math.random() * this.pieces.length);
             if (!this.pieces[pieceNum].taken) {
                 moves = this.pieces[pieceNum].generateMoves(this.board);
-                if (moves.length != 0){
+                if (moves.length != 0) {
                     break;
                 }
             }
@@ -154,9 +154,9 @@ var kingEvalBlack = reverseArray(kingEvalWhite);
 
 function getPieceAbsoluteValue(piece: Piece): number {
     switch (piece.letter) {
-        case "p":
+        case "P":
             return 10 + (piece.white ? pawnEvalWhite[piece.matrixPosition.y][piece.matrixPosition.x] : pawnEvalBlack[piece.matrixPosition.y][piece.matrixPosition.x]);
-        case "Kn":
+        case "N":
             return 30 + knightEval[piece.matrixPosition.y][piece.matrixPosition.x];
         case "B":
             return 30 + (piece.white ? bishopEvalWhite[piece.matrixPosition.y][piece.matrixPosition.x] : bishopEvalBlack[piece.matrixPosition.y][piece.matrixPosition.x]);
@@ -180,6 +180,8 @@ export class MinimaxAI extends AI {
     rootNodeIndex: number;
     branchNodeIndex: number;
     secondBranchNodeIndex: number;
+    nodeIndexStack: number[];
+
 
     constructor(board: Board, whitePieces: boolean) {
         super(board, whitePieces);
@@ -187,6 +189,7 @@ export class MinimaxAI extends AI {
         this.rootNodeIndex = 0;
         this.branchNodeIndex = 0;
         this.secondBranchNodeIndex = 0;
+        this.nodeIndexStack = [];
     }
 
     getBoardAbsoluteValue(allyPieces: Piece[], enemyPieces: Piece[]): number {
@@ -200,17 +203,18 @@ export class MinimaxAI extends AI {
         }
         for (var i = 0; i < enemyPieces.length; i++) {
             if (enemyPieces[i].taken) {
-                value += allyPieces[i].value;
+                value += enemyPieces[i].value;
             } else {
                 value -= getPieceAbsoluteValue(enemyPieces[i]);
             }
         }
         return value;
     }
-    // Stack für Nodes merken
+
     private createNewBoardsWithMovesRecursiv(board: Board, boards: Board[], depth: number): void {
         let moves: IVector[] = [];
         let pieces: Piece[];
+
         if (depth == maxDepth) {
             return;
         }
@@ -225,46 +229,28 @@ export class MinimaxAI extends AI {
                 boards.push(board.clone());
                 boards[boards.length - 1].movePiece(pieces[i].matrixPosition, moves[j]);
                 this.Nodes.push(new MyNode());
-                if (depth == 0) {
-                    this.Nodes[0].addSubNode(this.Nodes[this.Nodes.length - 1]);
-                    this.Nodes[this.Nodes.length - 1].setParentNode(this.Nodes[0]);
-                    this.rootNodeIndex = boards.length - 1;
-                }
-                if (depth == 1) {
-                    this.Nodes[this.rootNodeIndex].addSubNode(this.Nodes[this.Nodes.length - 1]);
-                    this.Nodes[this.Nodes.length - 1].setParentNode(this.Nodes[this.rootNodeIndex]);
-                    this.branchNodeIndex = boards.length - 1;
-                }
                 if (depth == maxDepth - 1) {
                     this.Nodes[this.Nodes.length - 1].value = this.getBoardAbsoluteValue(boards[boards.length - 1].blackPieces, boards[boards.length - 1].whitePieces);
-                    this.Nodes[this.branchNodeIndex].addSubNode(this.Nodes[this.Nodes.length - 1]);
-                    this.Nodes[this.Nodes.length - 1].setParentNode(this.Nodes[this.branchNodeIndex]);
                 }
+                this.Nodes[this.nodeIndexStack[this.nodeIndexStack.length - 1]].addSubNode(this.Nodes[this.Nodes.length - 1]);
+                this.Nodes[this.Nodes.length - 1].setParentNode(this.Nodes[this.nodeIndexStack[this.nodeIndexStack.length - 1]]);
+                this.nodeIndexStack.push(this.Nodes.length - 1);
                 this.createNewBoardsWithMovesRecursiv(boards[boards.length - 1], boards, depth + 1);
+                this.nodeIndexStack.pop();
             }
         }
     }
 
-    public makeMove(): void {
-        let boards: Board[] = [];
-        this.Nodes = [];
-        let bestMoveIndex: number;
-        var RootNodeindex: number;
-        var BranchNodeindex: number;
-        var secondBranchNodeindex: number;
+    makeMove(from: IVector, to: IVector): void {
+        let piece: Piece;
 
-        boards.push(this.board);
-        this.Nodes.push(new MyNode());
-        this.createNewBoardsWithMovesRecursiv(this.board, boards, 0);
-        console.log(boards.length + " " + this.Nodes.length);
-        console.log(this.minimax(this.Nodes[0], 3, true), this.Nodes[0].value);
-        bestMoveIndex = this.getChildNodeIndexWithValue(this.Nodes[0]);
-        this.vergleichen(boards[bestMoveIndex]);
-        this.board.adjustBoards(boards[bestMoveIndex]);
+        piece = this.board.getPieceAt(from.x, from.y);
+        piece.move(to.x, to.y, this.board);
     }
 
     vergleichen(board: Board) {
         let error: number = 0;
+
         for (let i = 0; i < 8; i++) {
             if ((this.board.whitePieces[i].matrixPosition.x != board.whitePieces[i].matrixPosition.x)
                 || (this.board.whitePieces[i].matrixPosition.y != board.whitePieces[i].matrixPosition.y)) {
@@ -280,6 +266,7 @@ export class MinimaxAI extends AI {
 
     minimax(position: MyNode, depth: number, maximizingPlayer: boolean): number {
         let value: number;
+
         if (depth == 0) {
             return position.value;
         }
@@ -303,7 +290,7 @@ export class MinimaxAI extends AI {
     }
 
     getChildNodeIndexWithValue(node: MyNode): number {
-        for (let i = 0; i < node.childNodes.length; i++) {
+        for (let i: number = 0; i < node.childNodes.length; i++) {
             if (node.childNodes[i].value == node.value) {
                 return this.Nodes.indexOf(node.childNodes[i]);
             }
@@ -316,12 +303,10 @@ export class MinimaxAI extends AI {
         let boards: Board[] = [];
         this.Nodes = [];
         let bestMoveIndex: number;
-        var RootNodeindex: number;
-        var BranchNodeindex: number;
-        var secondBranchNodeindex: number;
 
         boards.push(this.board);
         this.Nodes.push(new MyNode());
+        this.nodeIndexStack.push(this.Nodes.length - 1);
         this.createNewBoardsWithMovesRecursiv(this.board, boards, 0);
         console.log(boards.length + " " + this.Nodes.length);
         console.log(this.minimax(this.Nodes[0], 3, true), this.Nodes[0].value);

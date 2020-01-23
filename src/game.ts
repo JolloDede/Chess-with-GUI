@@ -159,6 +159,7 @@ export default class Game {
 
     public countPiecesDefeated(type: string, white: boolean): void {
         let value: number;
+        
         switch (type) {
             case "Pawn": {
                 if (white) {
