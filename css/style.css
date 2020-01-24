@@ -294,4 +294,15 @@ hr {
     float: left;
 }
 
+.piece-wrapper {
+    display: block;
+    height: fit-content;
+    margin: 10px;
+}
+
 /* End Introduction */
+/* Credits */
+
+#credits-content {
+    display: none;
+}
