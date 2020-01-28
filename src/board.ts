@@ -1,5 +1,5 @@
-import {IVector} from './main';
-import {Piece, King, Rook, Knigth, Bishop, Queen, Pawn} from './piece';
+import { IVector } from './main';
+import { Piece, King, Rook, Knigth, Bishop, Queen, Pawn } from './piece';
 
 export class Board {
     whitePieces: Piece[];
@@ -62,7 +62,7 @@ export class Board {
         return false;
     }
 
-    getPieceAt(x: number, y: number): Piece{
+    getPieceAt(x: number, y: number): Piece {
         for (var i = 0; i < this.whitePieces.length; i++) {
             if (!this.whitePieces[i].taken && this.whitePieces[i].matrixPosition.x == x && this.whitePieces[i].matrixPosition.y == y) {
                 return this.whitePieces[i];
@@ -74,7 +74,7 @@ export class Board {
             }
         }
         alert("fatal Error getPieceAt");
-        return new King(0,0,true);
+        return new King(0, 0, true);
     }
 
     isDone(): boolean {
@@ -97,7 +97,7 @@ export class Board {
         this.showScore();
     }
 
-    showScore(): void{
+    showScore(): void {
         document.getElementById("score-white")!.innerText = String(this.scoreWhite);
         document.getElementById("score-black")!.innerText = String(this.scoreBlack);
     }
@@ -111,7 +111,7 @@ export class Board {
                 this.getPieceAt(from.x, from.y);
             }
         }
-        if(piece.canMove(to.x, to.y, this)){
+        if (piece.canMove(to.x, to.y, this)) {
             piece.move(to.x, to.y, this);
         }
     }
@@ -140,28 +140,38 @@ export class Board {
         }
     }
 
-    kingUnderAttack(king: King): void{
+    kingUnderAttack(king: King): void {
         let pieces: Piece[];
         let moves: IVector[];
         let colorWhite: boolean = king.white;
 
-        if(colorWhite){
+        if (colorWhite) {
             pieces = this.blackPieces;
-        }else{
+        } else {
             pieces = this.whitePieces;
         }
         for (let i = 0; i < pieces.length; i++) {
             moves = pieces[i].generateMoves(this);
             for (let i = 0; i < moves.length; i++) {
                 moves[i].x;
-                if(king.matrixPosition.x == moves[i].x && king.matrixPosition.y == moves[i].y){
-                    if(colorWhite){this.whiteKingUnderAttack = true}
-                    else{this.blackKingUnderAttack = true}
+                if (king.matrixPosition.x == moves[i].x && king.matrixPosition.y == moves[i].y) {
+                    if (colorWhite) {
+                        this.whiteKingUnderAttack = true;
+                        return;
+                    }
+                    else {
+                        this.blackKingUnderAttack = true;
+                        return;
+                    }
                 }
             }
         }
-        if(colorWhite){this.whiteKingUnderAttack = false}
-        else{this.blackKingUnderAttack = false}
+        if (colorWhite) {
+            this.whiteKingUnderAttack = false
+        }
+        else {
+            this.blackKingUnderAttack = false
+        }
     }
 
 }

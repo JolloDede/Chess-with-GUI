@@ -1,6 +1,6 @@
 import { Board } from "./board";
 import { Piece } from "./piece";
-import { IVector, IMove } from "./main";
+import { IVector, IMove, board } from "./main";
 
 class MyNode {
     value: number;
@@ -211,6 +211,26 @@ export class MinimaxAI extends AI {
         return value;
     }
 
+    private createBoardWithMoves(board: Board, moveHistory: IMove[], depth: number): void{
+        let moves: IVector[] = [];
+        let pieces: Piece[];
+
+        if (depth == maxDepth) {
+            return;
+        }
+        if (depth % 2 == 0) {
+            pieces = board.blackPieces;
+        } else {
+            pieces = board.whitePieces;
+        }
+        for (let i = 0; i < pieces.length; i++) {
+            moves = pieces[i].generateMoves(board);
+            for (let j = 0; j < moves.length; j++) {
+                moveHistory.push({ from: pieces[i].matrixPosition, to: moves[j] })
+            }
+        }
+    }
+
     private createNewBoardsWithMovesRecursiv(board: Board, boards: Board[], depth: number): void {
         let moves: IVector[] = [];
         let pieces: Piece[];
@@ -304,10 +324,10 @@ export class MinimaxAI extends AI {
         this.Nodes = [];
         let bestMoveIndex: number;
 
-        boards.push(this.board);
+        boards.push(this.board.clone());
         this.Nodes.push(new MyNode());
         this.nodeIndexStack.push(this.Nodes.length - 1);
-        this.createNewBoardsWithMovesRecursiv(this.board, boards, 0);
+        this.createNewBoardsWithMovesRecursiv(boards[0], boards, 0);
         console.log(boards.length + " " + this.Nodes.length);
         console.log(this.minimax(this.Nodes[0], 3, true), this.Nodes[0].value);
         bestMoveIndex = this.getChildNodeIndexWithValue(this.Nodes[0]);
