@@ -18,7 +18,7 @@ export abstract class Piece {
         // pixelPositon for Text
         // this.pixelPositon = createVector(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2 + 10);
         // pixelPositon for Images
-        this.pixelPositon = createVector(x*tileSize, y*tileSize);
+        this.pixelPositon = createVector(x * tileSize, y * tileSize);
 
         this.taken = false;
         this.white = isWhite;
@@ -37,7 +37,7 @@ export abstract class Piece {
         }
         // console.log("Move "+this.kind+" from "+x+" to "+y);
         this.matrixPosition = createVector(x, y);
-        this.pixelPositon = createVector(x*tileSize, y*tileSize);
+        this.pixelPositon = createVector(x * tileSize, y * tileSize);
     }
 
     withinBounds(x: number, y: number): boolean {
@@ -86,9 +86,23 @@ export abstract class Piece {
         return false;
     }
 
-    setNewLocation(x: number, y: number) {
+    setNewLocation(x: number, y: number): void {
         this.matrixPosition = createVector(x, y);
         this.pixelPositon = createVector(x * tileSize, y * tileSize);
+    }
+
+    kingIsSave(x: number, y: number, board: Board): boolean {
+        let future: Board;
+
+        future = board.clone();
+        future.movePiece(this.matrixPosition, { x: x, y: y })
+        if (this.white){
+            future.kingUnderAttack(future.whitePieces[0] as King);
+            return future.whiteKingUnderAttack;
+        }else{
+            future.kingUnderAttack(future.blackPieces[0] as King);
+            return future.blackKingUnderAttack;
+        }
     }
 
     abstract generateMoves(board: Board): IVector[];
@@ -258,7 +272,7 @@ export class Queen extends Piece {
         }
         // Diagonal
         // Right to Left
-        for (var i: number = 7; i >=0; i--) {
+        for (var i: number = 7; i >= 0; i--) {
             x = i;
             y = this.matrixPosition.y + this.matrixPosition.x - i;
             if (i != this.matrixPosition.x) {
