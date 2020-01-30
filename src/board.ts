@@ -73,7 +73,7 @@ export class Board {
                 return this.blackPieces[i];
             }
         }
-        alert("fatal Error getPieceAt");
+        console.log("fatal Error getPieceAt");
         return new King(0, 0, true);
     }
 
