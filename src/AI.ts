@@ -37,20 +37,18 @@ export abstract class AI {
 
     abstract decideMove(): IMove;
 
-    abstract makeMove(from: IVector, to: IVector): void;
+    makeMove(from: IVector, to: IVector): void {
+        let piece: Piece | null;
+
+        piece = this.board.getPieceAt(from.x, from.y);
+        (piece as Piece).move(to.x, to.y, this.board);
+    }
 }
 
 export class RandomAI extends AI {
 
     constructor(board: Board, whitePieces: boolean) {
         super(board, whitePieces);
-    }
-
-    makeMove(from: IVector, to: IVector): void {
-        let piece: Piece;
-
-        piece = this.board.getPieceAt(from.x, from.y);
-        piece.move(to.x, to.y, this.board);
     }
 
     decideMove(): IMove {
@@ -246,13 +244,6 @@ export class MinimaxAI extends AI {
                 this.boardStack.pop();
             }
         }
-    }
-
-    makeMove(from: IVector, to: IVector): void {
-        let piece: Piece;
-
-        piece = this.board.getPieceAt(from.x, from.y);
-        piece.move(to.x, to.y, this.board);
     }
 
     vergleichen(board: Board) {

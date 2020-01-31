@@ -29,8 +29,10 @@ export abstract class Piece {
     }
 
     move(x: number, y: number, board: Board): void {
-        if (board.pieceAt(x, y)) {
-            var attacking = board.getPieceAt(x, y);
+        let attacking: Piece | null;
+
+        attacking = board.getPieceAt(x, y);
+        if (attacking != null) {
             if (attacking != null) {
                 attacking.taken = true;
             }
@@ -48,8 +50,10 @@ export abstract class Piece {
     }
 
     attackingAllies(x: number, y: number, board: Board): boolean {
-        if (board.pieceAt(x, y)) {
-            var attacking = board.getPieceAt(x, y);
+        let attacking: Piece | null;
+
+        attacking = board.getPieceAt(x, y);
+        if (attacking != null) {
             if (attacking.white == this.white) {
                 return true;
             }
@@ -77,7 +81,7 @@ export abstract class Piece {
             if (!this.withinBounds(tempPos.x, tempPos.y)) {
                 return false;
             }
-            if (board.pieceAt(tempPos.x, tempPos.y)) {
+            if (board.getPieceAt(tempPos.x, tempPos.y) != null) {
                 return true;
             }
             tempPos.x += stepDirectionX;
@@ -96,10 +100,10 @@ export abstract class Piece {
 
         future = board.clone();
         future.movePiece(this.matrixPosition, { x: x, y: y })
-        if (this.white){
+        if (this.white) {
             future.kingUnderAttack(future.whitePieces[0] as King);
             return future.whiteKingUnderAttack;
-        }else{
+        } else {
             future.kingUnderAttack(future.blackPieces[0] as King);
             return future.blackKingUnderAttack;
         }
@@ -537,8 +541,7 @@ export class Pawn extends Piece {
         if (this.attackingAllies(x, y, board)) {
             return false;
         }
-        var attacking = board.pieceAt(x, y);
-        if (attacking) {
+        if (board.getPieceAt(x, y) != null) {
             if (Math.abs(x - this.matrixPosition.x) == Math.abs(y - this.matrixPosition.y) &&
                 ((this.white && (y - this.matrixPosition.y) == -1) || (!this.white && (y - this.matrixPosition.y) == 1))) {
                 this.firstTurn = false;
@@ -581,6 +584,8 @@ export class Pawn extends Piece {
         var moves: IVector[] = [];
         var x: number;
         var y: number;
+        let piece: Piece | null;
+
         if (this.taken) {
             return [];
         }
@@ -592,9 +597,9 @@ export class Pawn extends Piece {
                 } else {
                     y = this.matrixPosition.y + 1;
                 }
-                var attacking = board.pieceAt(x, y);
-                if (attacking) {
-                    if (!this.attackingAllies(x, y, board)) {
+                piece = board.getPieceAt(x,y);
+                if (piece != null) {
+                    if (this.white != piece.white) {
                         moves.push(createVector(x, y));
                     }
                 }
@@ -605,7 +610,7 @@ export class Pawn extends Piece {
             } else {
                 y = this.matrixPosition.y + 1;
             }
-            if (this.withinBounds(x, y) && !board.pieceAt(x, y)) {
+            if (this.withinBounds(x, y) && !board.getPieceAt(x, y)) {
                 moves.push(createVector(x, y));
             }
 
@@ -616,7 +621,7 @@ export class Pawn extends Piece {
                 } else {
                     y = this.matrixPosition.y + 2;
                 }
-                if (this.withinBounds(x, y) && !board.pieceAt(x, y)) {
+                if (this.withinBounds(x, y) && !board.getPieceAt(x, y)) {
                     if (!this.moveTroughPieces(x, y, board)) {
                         moves.push(createVector(x, y));
                     }

@@ -44,25 +44,7 @@ export class Board {
         }
     }
 
-    pieceAt(x: number, y: number): boolean {
-        for (var i = 0; i < this.whitePieces.length; i++) {
-            if (this.whitePieces[i].matrixPosition.x == x && this.whitePieces[i].matrixPosition.y == y) {
-                if (!this.whitePieces[i].taken) {
-                    return true;
-                }
-            }
-        }
-        for (var i = 0; i < this.blackPieces.length; i++) {
-            if (this.blackPieces[i].matrixPosition.x == x && this.blackPieces[i].matrixPosition.y == y) {
-                if (!this.blackPieces[i].taken) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    getPieceAt(x: number, y: number): Piece {
+    getPieceAt(x: number, y: number): Piece | null {
         for (var i = 0; i < this.whitePieces.length; i++) {
             if (!this.whitePieces[i].taken && this.whitePieces[i].matrixPosition.x == x && this.whitePieces[i].matrixPosition.y == y) {
                 return this.whitePieces[i];
@@ -73,8 +55,7 @@ export class Board {
                 return this.blackPieces[i];
             }
         }
-        console.log("fatal Error getPieceAt");
-        return new King(0, 0, true);
+        return null;
     }
 
     isDone(): boolean {
@@ -103,16 +84,18 @@ export class Board {
     }
 
     movePiece(from: IVector, to: IVector): void {
-        var piece = this.getPieceAt(from.x, from.y);
+        let piece: Piece | null;
+        piece = this.getPieceAt(from.x, from.y);
         if (piece == null) {
             console.log(from.x + " " + from.y);
             for (var i = 0; i < this.blackPieces.length; i++) {
                 console.log(this.blackPieces[i].matrixPosition.x + " " + this.blackPieces[i].matrixPosition.y);
                 this.getPieceAt(from.x, from.y);
             }
-        }
-        if (piece.canMove(to.x, to.y, this)) {
-            piece.move(to.x, to.y, this);
+        } else {
+            if (piece.canMove(to.x, to.y, this)) {
+                piece.move(to.x, to.y, this);
+            }
         }
     }
 

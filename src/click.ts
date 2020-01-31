@@ -12,7 +12,7 @@ document.getElementById("start")!.onclick = function () { startButtonClick() }
 document.getElementById("new-game")!.onclick = function () { newGameButtonClick() }
 document.getElementById("introduction")!.onclick = function () { introductionButtonCLick() }
 
-window.onkeydown = function (event: KeyboardEvent) { enterClick(event)}
+window.onkeydown = function (event: KeyboardEvent) { enterClick(event) }
 
 export var canvas: HTMLCanvasElement;
 canvas = document.getElementById("my-canvas") as HTMLCanvasElement;
@@ -22,16 +22,16 @@ canvas.onclick = function () { canvasClick() }
 export var mouseX: number;
 export var mouseY: number;
 var moving: boolean;
-export var movingPiece: Piece;
+export var movingPiece: Piece | null;
 var AI: RandomAI | MinimaxAI;
 
 var color: string;
 var app: App;
 
 
-function enterClick(event: KeyboardEvent){
+function enterClick(event: KeyboardEvent) {
     if (event.keyCode == 13) {
-        if (document.getElementById("canvas-overlay-container")!.style.display != "none"){
+        if (document.getElementById("canvas-overlay-container")!.style.display != "none") {
             startButtonClick();
         }
     }
@@ -40,15 +40,16 @@ function enterClick(event: KeyboardEvent){
 function canvasClick() {
     let x: number;
     let y: number;
-    let piece: Piece;
+    let piece: Piece | null;
     let move: IMove;
 
     x = Math.floor(mouseX / tileSize);
     y = Math.floor(mouseY / tileSize);
     if (!board.isDone()) {
         if (!moving) {
-            if (board.pieceAt(x, y)) {
-                movingPiece = board.getPieceAt(x, y);
+            movingPiece = board.getPieceAt(x, y)
+            if (movingPiece != null) {
+                // movingPiece = board.getPieceAt(x, y);
                 if ((movingPiece.white && color == "white") || (!movingPiece.white && color == "black")) {
                     movingPiece.movingThisPiece = true;
                 } else {
@@ -58,28 +59,28 @@ function canvasClick() {
                 return;
             }
         } else {
-            if (movingPiece.canMove(x, y, board)) {
-                if (board.pieceAt(x,y)){
-                    piece = board.getPieceAt(x,y);
+            if ((movingPiece as Piece).canMove(x, y, board)) {
+                piece = board.getPieceAt(x, y);
+                if (piece != null) {
                     app.getGame().countPiecesDefeated(piece.kind, piece.white);
                 }
-                app.getGame().gameLog(movingPiece, { x: x, y: y });
-                movingPiece.move(x, y, board);
+                app.getGame().gameLog((movingPiece as Piece), { x: x, y: y });
+                (movingPiece as Piece).move(x, y, board);
                 move = AI.decideMove();
-                app.getGame().gameLog(board.getPieceAt(move.from.x, move.from.y), move.to);
-                if (board.pieceAt(move.to.x,move.to.y)){
-                    piece = board.getPieceAt(move.to.x,move.to.y);
+                app.getGame().gameLog(board.getPieceAt(move.from.x, move.from.y) as Piece, move.to);
+                piece = board.getPieceAt(move.to.x, move.to.y);
+                if (piece != null) {
                     app.getGame().countPiecesDefeated(piece.kind, piece.white);
                 }
                 AI.makeMove(move.from, move.to);
                 board.showScore();
                 board.kingUnderAttack(board.whitePieces[0] as King);
                 board.kingUnderAttack(board.blackPieces[0] as King);
-                if (board.blackKingUnderAttack || board.whiteKingUnderAttack){
+                if (board.blackKingUnderAttack || board.whiteKingUnderAttack) {
                     console.log("Check");
                 }
             }
-            movingPiece.movingThisPiece = false;
+            (movingPiece as Piece).movingThisPiece = false;
         }
         moving = !moving;
         board.setScore();
@@ -168,7 +169,7 @@ function newGameButtonClick() {
     coc.style.display = "initial";
 }
 
-function introductionButtonCLick(){
+function introductionButtonCLick() {
     document.getElementById("game-sitepanel")!.style.display = "none";
     document.getElementById("game-log")!.style.display = "none";
     document.getElementById("game-content")!.style.display = "none";
