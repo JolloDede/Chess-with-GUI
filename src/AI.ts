@@ -1,6 +1,6 @@
 import { Board } from "./board";
 import { Piece } from "./piece";
-import { IVector, IMove } from "./main";
+import { IVector, IMove, board } from "./main";
 
 class MyNode {
     value: number;
@@ -172,24 +172,26 @@ function getPieceAbsoluteValue(piece: Piece): number {
     }
 }
 
-const maxDepth = 3;
+interface IMoveAssisiation {
+    move: IMove;
+    nodeNr: number;
+}
+
+const maxDepth = 4;
 
 export class MinimaxAI extends AI {
     Nodes: MyNode[];
-
-    rootNodeIndex: number;
-    branchNodeIndex: number;
-    secondBranchNodeIndex: number;
     nodeIndexStack: number[];
+    firstMoves: IMoveAssisiation[];
+    boardStack: Board[];
 
 
     constructor(board: Board, whitePieces: boolean) {
         super(board, whitePieces);
         this.Nodes = [];
-        this.rootNodeIndex = 0;
-        this.branchNodeIndex = 0;
-        this.secondBranchNodeIndex = 0;
         this.nodeIndexStack = [];
+        this.firstMoves = [];
+        this.boardStack = [];
     }
 
     getBoardAbsoluteValue(allyPieces: Piece[], enemyPieces: Piece[]): number {
@@ -211,7 +213,7 @@ export class MinimaxAI extends AI {
         return value;
     }
 
-    private createNewBoardsWithMovesRecursiv(board: Board, boards: Board[], depth: number): void {
+    private createNewBoardsWithMovesRecursiv(board: Board, depth: number): void {
         let moves: IVector[] = [];
         let pieces: Piece[];
 
@@ -226,17 +228,22 @@ export class MinimaxAI extends AI {
         for (let i = 0; i < pieces.length; i++) {
             moves = pieces[i].generateMoves(board);
             for (let j = 0; j < moves.length; j++) {
-                boards.push(board.clone());
-                boards[boards.length - 1].movePiece(pieces[i].matrixPosition, moves[j]);
+                this.boardStack.push(board.clone())
+                if (depth == 0) {
+                    this.firstMoves.push({ move: { from: pieces[i].matrixPosition, to: moves[j] }, nodeNr: this.Nodes.length })
+                }
+                this.boardStack[this.boardStack.length - 1].movePiece(pieces[i].matrixPosition, moves[j]);
                 this.Nodes.push(new MyNode());
                 if (depth == maxDepth - 1) {
-                    this.Nodes[this.Nodes.length - 1].value = this.getBoardAbsoluteValue(boards[boards.length - 1].blackPieces, boards[boards.length - 1].whitePieces);
+                    this.Nodes[this.Nodes.length - 1].value = this.getBoardAbsoluteValue(this.boardStack[this.boardStack.length - 1].blackPieces, this.boardStack[this.boardStack.length - 1].whitePieces);
+                    // console.log(this.Nodes.length+" "+this.Nodes[this.Nodes.length-1].value);
                 }
                 this.Nodes[this.nodeIndexStack[this.nodeIndexStack.length - 1]].addSubNode(this.Nodes[this.Nodes.length - 1]);
                 this.Nodes[this.Nodes.length - 1].setParentNode(this.Nodes[this.nodeIndexStack[this.nodeIndexStack.length - 1]]);
                 this.nodeIndexStack.push(this.Nodes.length - 1);
-                this.createNewBoardsWithMovesRecursiv(boards[boards.length - 1], boards, depth + 1);
+                this.createNewBoardsWithMovesRecursiv(this.boardStack[this.boardStack.length - 1], depth + 1);
                 this.nodeIndexStack.pop();
+                this.boardStack.pop();
             }
         }
     }
@@ -300,18 +307,26 @@ export class MinimaxAI extends AI {
     }
 
     decideMove(): IMove {
-        let boards: Board[] = [];
         this.Nodes = [];
         let bestMoveIndex: number;
 
-        boards.push(this.board);
+        this.firstMoves = [];
         this.Nodes.push(new MyNode());
         this.nodeIndexStack.push(this.Nodes.length - 1);
-        this.createNewBoardsWithMovesRecursiv(this.board, boards, 0);
-        console.log(boards.length + " " + this.Nodes.length);
-        console.log(this.minimax(this.Nodes[0], 3, true), this.Nodes[0].value);
+        this.createNewBoardsWithMovesRecursiv(this.board.clone(), 0);
+        console.log(this.minimax(this.Nodes[0], maxDepth, true), this.Nodes[0].value);
         bestMoveIndex = this.getChildNodeIndexWithValue(this.Nodes[0]);
-        return this.boardComparePosOff(boards[bestMoveIndex]);
+        return this.getMove(bestMoveIndex);
+    }
+
+    getMove(bMI: number): IMove {
+        for (let i = 0; i < this.firstMoves.length; i++) {
+            if (this.firstMoves[i].nodeNr == bMI) {
+                return this.firstMoves[i].move;
+            }
+        }
+        console.log("Error getMove");
+        return {} as IMove;
     }
 
     boardComparePosOff(destBoard: Board): IMove {
