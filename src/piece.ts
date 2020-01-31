@@ -1,31 +1,20 @@
 import { IVector, createVector } from "./main";
 import { Board } from "./board";
-import { tileSize } from "./game";
 
 export abstract class Piece {
     matrixPosition: IVector;
-    pixelPositon: IVector;
     taken: boolean;
     white: boolean;
     letter: string;
-    pic?: HTMLImageElement;
     movingThisPiece: boolean;
     value: number;
-    kind: string;
-    static images: HTMLImageElement[];
     constructor(x: number, y: number, isWhite: boolean, letter: string) {
         this.matrixPosition = createVector(x, y);
-        // pixelPositon for Text
-        // this.pixelPositon = createVector(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2 + 10);
-        // pixelPositon for Images
-        this.pixelPositon = createVector(x * tileSize, y * tileSize);
-
         this.taken = false;
         this.white = isWhite;
         this.letter = letter;
         this.movingThisPiece = false;
         this.value = 0;
-        this.kind = "";
     }
 
     move(x: number, y: number, board: Board): void {
@@ -37,9 +26,8 @@ export abstract class Piece {
                 attacking.taken = true;
             }
         }
-        // console.log("Move "+this.kind+" from "+x+" to "+y);
+        // console.log("Move "+this.letter+" from "+x+" to "+y);
         this.matrixPosition = createVector(x, y);
-        this.pixelPositon = createVector(x * tileSize, y * tileSize);
     }
 
     withinBounds(x: number, y: number): boolean {
@@ -92,7 +80,6 @@ export abstract class Piece {
 
     setNewLocation(x: number, y: number): void {
         this.matrixPosition = createVector(x, y);
-        this.pixelPositon = createVector(x * tileSize, y * tileSize);
     }
 
     kingIsSave(x: number, y: number, board: Board): boolean {
@@ -120,13 +107,7 @@ export class King extends Piece {
         super(x, y, isWhite, "K");
         this.firstTurn = true;
         this.gotAttacked = false;
-        // if (isWhite) {
-        //     this.pic = King.images[0];
-        // } else {
-        //     this.pic = King.images[6];
-        // }
         this.value = 99;
-        this.kind = "King";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
@@ -214,13 +195,7 @@ export class King extends Piece {
 export class Queen extends Piece {
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "Q");
-        // if (isWhite) {
-        //     this.pic = Queen.images[1];
-        // } else {
-        //     this.pic = Queen.images[7];
-        // }
         this.value = 9;
-        this.kind = "Queen";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
@@ -319,13 +294,7 @@ export class Rook extends Piece {
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "R");
         this.firstTurn = true;
-        // if (isWhite) {
-        //     this.pic = Rook.images[4];
-        // } else {
-        //     this.pic = Rook.images[10];
-        // }
         this.value = 5;
-        this.kind = "Rook";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
@@ -387,13 +356,7 @@ export class Rook extends Piece {
 export class Bishop extends Piece {
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "B");
-        // if (isWhite) {
-        //     this.pic = Bishop.images[2];
-        // } else {
-        //     this.pic = Bishop.images[8];
-        // }
         this.value = 3;
-        this.kind = "Bishop";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
@@ -458,13 +421,7 @@ export class Bishop extends Piece {
 export class Knigth extends Piece {
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "N");
-        // if (isWhite) {
-        //     this.pic = Knigth.images[3];
-        // } else {
-        //     this.pic = Knigth.images[9];
-        // }
         this.value = 3;
-        this.kind = "Knigth";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
@@ -525,13 +482,7 @@ export class Pawn extends Piece {
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "P");
         this.firstTurn = true;
-        // if (isWhite) {
-        //     this.pic = Pawn.images[5];
-        // } else {
-        //     this.pic = Pawn.images[11];
-        // }
         this.value = 1;
-        this.kind = "Pawn";
     }
 
     canMove(x: number, y: number, board: Board): boolean {

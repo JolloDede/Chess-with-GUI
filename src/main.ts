@@ -1,6 +1,5 @@
 import { Board } from "./board";
 import Game from "./game";
-import { Piece } from "./piece";
 
 export var board: Board;
 export var images: HTMLImageElement[] = [];

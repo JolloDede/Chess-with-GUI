@@ -45,12 +45,10 @@ export class Board {
     }
 
     getPieceAt(x: number, y: number): Piece | null {
-        for (var i = 0; i < this.whitePieces.length; i++) {
+        for (let i = 0; i < 16; i++) {
             if (!this.whitePieces[i].taken && this.whitePieces[i].matrixPosition.x == x && this.whitePieces[i].matrixPosition.y == y) {
                 return this.whitePieces[i];
             }
-        }
-        for (var i = 0; i < this.blackPieces.length; i++) {
             if (!this.blackPieces[i].taken && this.blackPieces[i].matrixPosition.x == x && this.blackPieces[i].matrixPosition.y == y) {
                 return this.blackPieces[i];
             }
@@ -65,12 +63,10 @@ export class Board {
     setScore(): void {
         this.scoreWhite = 0;
         this.scoreBlack = 0;
-        for (var i = 0; i < this.whitePieces.length; i++) {
+        for (let i = 0; i < 16; i++) {
             if (this.whitePieces[i].taken) {
                 this.scoreBlack += this.whitePieces[i].value;
             }
-        }
-        for (var i = 0; i < this.blackPieces.length; i++) {
             if (this.blackPieces[i].taken) {
                 this.scoreWhite += this.blackPieces[i].value;
             }
@@ -101,26 +97,20 @@ export class Board {
 
     clone(): Board {
         var clone = new Board();
-        var i: number
-        for (i = 0; i < this.whitePieces.length; i++) {
+        var i: number;
+        
+        for (let i = 0; i < 16; i++) {
+            // White Pieces
             clone.whitePieces[i].matrixPosition.x = this.whitePieces[i].matrixPosition.x;
             clone.whitePieces[i].matrixPosition.y = this.whitePieces[i].matrixPosition.y;
             clone.whitePieces[i].taken = this.whitePieces[i].taken;
-        }
-        for (i = 0; i < this.blackPieces.length; i++) {
+
+            // Black Pieces
             clone.blackPieces[i].matrixPosition.x = this.blackPieces[i].matrixPosition.x;
             clone.blackPieces[i].matrixPosition.y = this.blackPieces[i].matrixPosition.y;
             clone.blackPieces[i].taken = this.blackPieces[i].taken;
         }
         return clone;
-    }
-
-    adjustBoards(dest: Board): void {
-        for (let i: number = 0; i < this.blackPieces.length; i++) {
-            if ((this.blackPieces[i].matrixPosition.x != dest.blackPieces[i].matrixPosition.x) || (this.blackPieces[i].matrixPosition.y != dest.blackPieces[i].matrixPosition.y)) {
-                this.movePiece(this.blackPieces[i].matrixPosition, dest.blackPieces[i].matrixPosition);
-            }
-        }
     }
 
     kingUnderAttack(king: King): void {
