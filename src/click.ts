@@ -1,7 +1,8 @@
-import { App, board, IMove } from "./main";
+import { App, board } from "./main";
 import Game, { tileSize } from "./game";
 import { Piece, King } from "./piece";
 import { RandomAI, MinimaxAI } from "./AI";
+import { IMove } from "./interface";
 
 document.getElementById("back")!.onclick = function () { backButtonClick() }
 document.getElementById("advance")!.onclick = function () { advanceButtonClick() }

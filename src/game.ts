@@ -1,6 +1,7 @@
 import { canvas, mouseX, mouseY, movingPiece } from "./click";
-import { board, images, IVector } from "./main";
+import { board, images } from "./main";
 import { Piece } from "./piece";
+import { IVector } from "./interface";
 
 export var tileSize: number;
 

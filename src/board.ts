@@ -1,4 +1,4 @@
-import { IVector } from './main';
+import { IVector } from './interface';
 import { Piece, King, Rook, Knigth, Bishop, Queen, Pawn } from './piece';
 
 export class Board {
@@ -93,9 +93,7 @@ export class Board {
                 this.getPieceAt(from.x, from.y);
             }
         } else {
-            if (piece.canMove(to.x, to.y, this)) {
-                piece.move(to.x, to.y, this);
-            }
+            piece.move(to.x, to.y, this);
         }
     }
 

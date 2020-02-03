@@ -1,6 +1,7 @@
 import { Board } from "./board";
 import { Piece } from "./piece";
-import { IVector, IMove, board } from "./main";
+import { IVector, IMove, IMoveAssosiation } from "./interface";
+import { pawnEvalWhite, pawnEvalBlack, knightEval, bishopEvalWhite, bishopEvalBlack, rookEvalWhite, rookEvalBlack, evalQueen, kingEvalWhite, kingEvalBlack } from "./evalBoard";
 
 class MyNode {
     value: number;
@@ -72,84 +73,6 @@ export class RandomAI extends AI {
 
 }
 
-function reverseArray(array: number[][]): number[][] {
-    return array.slice().reverse();
-}
-
-var pawnEvalWhite = [
-    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-    [5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0, 5.0],
-    [1.0, 1.0, 2.0, 3.0, 3.0, 2.0, 1.0, 1.0],
-    [0.5, 0.5, 1.0, 2.5, 2.5, 1.0, 0.5, 0.5],
-    [0.0, 0.0, 0.0, 2.0, 2.0, 0.0, 0.0, 0.0],
-    [0.5, -0.5, -1.0, 0.0, 0.0, -1.0, -0.5, 0.5],
-    [0.5, 1.0, 1.0, -2.0, -2.0, 1.0, 1.0, 0.5],
-    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-];
-
-var pawnEvalBlack = reverseArray(pawnEvalWhite);
-
-var knightEval = [
-    [-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0],
-    [-4.0, -2.0, 0.0, 0.0, 0.0, 0.0, -2.0, -4.0],
-    [-3.0, 0.0, 1.0, 1.5, 1.5, 1.0, 0.0, -3.0],
-    [-3.0, 0.5, 1.5, 2.0, 2.0, 1.5, 0.5, -3.0],
-    [-3.0, 0.0, 1.5, 2.0, 2.0, 1.5, 0.0, -3.0],
-    [-3.0, 0.5, 1.0, 1.5, 1.5, 1.0, 0.5, -3.0],
-    [-4.0, -2.0, 0.0, 0.5, 0.5, 0.0, -2.0, -4.0],
-    [-5.0, -4.0, -3.0, -3.0, -3.0, -3.0, -4.0, -5.0]
-];
-
-var bishopEvalWhite = [
-    [-2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0],
-    [-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0],
-    [-1.0, 0.0, 0.5, 1.0, 1.0, 0.5, 0.0, -1.0],
-    [-1.0, 0.5, 0.5, 1.0, 1.0, 0.5, 0.5, -1.0],
-    [-1.0, 0.0, 1.0, 1.0, 1.0, 1.0, 0.0, -1.0],
-    [-1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, -1.0],
-    [-1.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.5, -1.0],
-    [-2.0, -1.0, -1.0, -1.0, -1.0, -1.0, -1.0, -2.0]
-];
-
-var bishopEvalBlack = reverseArray(bishopEvalWhite);
-
-var rookEvalWhite = [
-    [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-    [0.5, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 0.5],
-    [-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5],
-    [-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5],
-    [-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5],
-    [-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5],
-    [-0.5, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -0.5],
-    [0.0, 0.0, 0.0, 0.5, 0.5, 0.0, 0.0, 0.0]
-];
-
-var rookEvalBlack = reverseArray(rookEvalWhite);
-
-var evalQueen = [
-    [-2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0],
-    [-1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0],
-    [-1.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.0, -1.0],
-    [-0.5, 0.0, 0.5, 0.5, 0.5, 0.5, 0.0, -0.5],
-    [0.0, 0.0, 0.5, 0.5, 0.5, 0.5, 0.0, -0.5],
-    [-1.0, 0.5, 0.5, 0.5, 0.5, 0.5, 0.0, -1.0],
-    [-1.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, -1.0],
-    [-2.0, -1.0, -1.0, -0.5, -0.5, -1.0, -1.0, -2.0]
-];
-
-var kingEvalWhite = [
-    [-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
-    [-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
-    [-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
-    [-3.0, -4.0, -4.0, -5.0, -5.0, -4.0, -4.0, -3.0],
-    [-2.0, -3.0, -3.0, -4.0, -4.0, -3.0, -3.0, -2.0],
-    [-1.0, -2.0, -2.0, -2.0, -2.0, -2.0, -2.0, -1.0],
-    [2.0, 2.0, 0.0, 0.0, 0.0, 0.0, 2.0, 2.0],
-    [2.0, 3.0, 1.0, 0.0, 0.0, 1.0, 3.0, 2.0]
-];
-
-var kingEvalBlack = reverseArray(kingEvalWhite);
-
 function getPieceAbsoluteValue(piece: Piece): number {
     switch (piece.letter) {
         case "P":
@@ -170,17 +93,12 @@ function getPieceAbsoluteValue(piece: Piece): number {
     }
 }
 
-interface IMoveAssisiation {
-    move: IMove;
-    nodeNr: number;
-}
-
 const maxDepth = 4;
 
 export class MinimaxAI extends AI {
     Nodes: MyNode[];
     nodeIndexStack: number[];
-    firstMoves: IMoveAssisiation[];
+    firstMoves: IMoveAssosiation[];
     boardStack: Board[];
 
 

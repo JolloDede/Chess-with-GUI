@@ -1,4 +1,4 @@
-import { IVector, createVector } from "./main";
+import { IVector, createVector } from "./interface";
 import { Board } from "./board";
 import { tileSize } from "./game";
 
@@ -102,10 +102,10 @@ export abstract class Piece {
         future.movePiece(this.matrixPosition, { x: x, y: y })
         if (this.white) {
             future.kingUnderAttack(future.whitePieces[0] as King);
-            return future.whiteKingUnderAttack;
+            return !future.whiteKingUnderAttack;
         } else {
             future.kingUnderAttack(future.blackPieces[0] as King);
-            return future.blackKingUnderAttack;
+            return !future.blackKingUnderAttack;
         }
     }
 
@@ -120,11 +120,6 @@ export class King extends Piece {
         super(x, y, isWhite, "K");
         this.firstTurn = true;
         this.gotAttacked = false;
-        // if (isWhite) {
-        //     this.pic = King.images[0];
-        // } else {
-        //     this.pic = King.images[6];
-        // }
         this.value = 99;
         this.kind = "King";
     }
@@ -140,14 +135,20 @@ export class King extends Piece {
             return false;
         }
         if (Math.abs(x - this.matrixPosition.x) <= 1 && Math.abs(y - this.matrixPosition.y) <= 1) {
-            this.firstTurn = false;
-            return true;
+            if (this.kingIsSave(x, y, board)) {
+                this.firstTurn = false;
+                return true;
+            }
         }
         if (this.firstTurn && !this.gotAttacked && Math.abs(x - this.matrixPosition.x) == 2 && Math.abs(y - this.matrixPosition.y) == 0) {
-            return this.rochade(x, this.white, board);
+            if (this.kingIsSave(x, y, board)) {
+                return this.rochade(x, this.white, board);
+            }
         }
         if (this.firstTurn && !this.gotAttacked && Math.abs(x - this.matrixPosition.x) == -2 && Math.abs(y - this.matrixPosition.y) == 0) {
-            return this.rochade(x, this.white, board);
+            if (this.kingIsSave(x, y, board)) {
+                return this.rochade(x, this.white, board);
+            }
         }
         return false;
     }
@@ -214,11 +215,6 @@ export class King extends Piece {
 export class Queen extends Piece {
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "Q");
-        // if (isWhite) {
-        //     this.pic = Queen.images[1];
-        // } else {
-        //     this.pic = Queen.images[7];
-        // }
         this.value = 9;
         this.kind = "Queen";
     }
@@ -234,13 +230,17 @@ export class Queen extends Piece {
             if (this.moveTroughPieces(x, y, board)) {
                 return false;
             }
-            return true;
+            if (this.kingIsSave(x, y, board)) {
+                return true;
+            }
         }
         if (Math.abs(x - this.matrixPosition.x) == Math.abs(y - this.matrixPosition.y)) {
             if (this.moveTroughPieces(x, y, board)) {
                 return false;
             }
-            return true;
+            if (this.kingIsSave(x, y, board)) {
+                return true;
+            }
         }
         return false;
     }
@@ -319,11 +319,6 @@ export class Rook extends Piece {
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "R");
         this.firstTurn = true;
-        // if (isWhite) {
-        //     this.pic = Rook.images[4];
-        // } else {
-        //     this.pic = Rook.images[10];
-        // }
         this.value = 5;
         this.kind = "Rook";
     }
@@ -339,8 +334,10 @@ export class Rook extends Piece {
             if (this.moveTroughPieces(x, y, board)) {
                 return false;
             }
-            this.firstTurn = false;
-            return true;
+            if (this.kingIsSave(x, y, board)) {
+                this.firstTurn = false;
+                return true;
+            }
         }
         return false;
     }
@@ -387,11 +384,6 @@ export class Rook extends Piece {
 export class Bishop extends Piece {
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "B");
-        // if (isWhite) {
-        //     this.pic = Bishop.images[2];
-        // } else {
-        //     this.pic = Bishop.images[8];
-        // }
         this.value = 3;
         this.kind = "Bishop";
     }
@@ -407,7 +399,9 @@ export class Bishop extends Piece {
             if (this.moveTroughPieces(x, y, board)) {
                 return false;
             }
-            return true;
+            if (this.kingIsSave(x, y, board)) {
+                return true;
+            }
         }
         return false;
     }
@@ -458,11 +452,6 @@ export class Bishop extends Piece {
 export class Knigth extends Piece {
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "N");
-        // if (isWhite) {
-        //     this.pic = Knigth.images[3];
-        // } else {
-        //     this.pic = Knigth.images[9];
-        // }
         this.value = 3;
         this.kind = "Knigth";
     }
@@ -476,7 +465,9 @@ export class Knigth extends Piece {
         }
         if (Math.abs(x - this.matrixPosition.x) == 1 && Math.abs(y - this.matrixPosition.y) == 2 ||
             Math.abs(x - this.matrixPosition.x) == 2 && Math.abs(y - this.matrixPosition.y) == 1) {
-            return true;
+            if (this.kingIsSave(x, y, board)) {
+                return true;
+            }
         }
         return false;
     }
@@ -525,11 +516,6 @@ export class Pawn extends Piece {
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "P");
         this.firstTurn = true;
-        // if (isWhite) {
-        //     this.pic = Pawn.images[5];
-        // } else {
-        //     this.pic = Pawn.images[11];
-        // }
         this.value = 1;
         this.kind = "Pawn";
     }
@@ -544,8 +530,10 @@ export class Pawn extends Piece {
         if (board.getPieceAt(x, y) != null) {
             if (Math.abs(x - this.matrixPosition.x) == Math.abs(y - this.matrixPosition.y) &&
                 ((this.white && (y - this.matrixPosition.y) == -1) || (!this.white && (y - this.matrixPosition.y) == 1))) {
-                this.firstTurn = false;
-                return true;
+                if (this.kingIsSave(x, y, board)) {
+                    this.firstTurn = false;
+                    return true;
+                }
             } else {
                 return false
             }
@@ -555,26 +543,34 @@ export class Pawn extends Piece {
         }
         if (this.white) {
             if (y - this.matrixPosition.y == -1) {
-                return true;
+                if (this.kingIsSave(x, y, board)) {
+                    return true;
+                }
             }
             if (this.firstTurn && y - this.matrixPosition.y == -2) {
                 if (this.moveTroughPieces(x, y, board)) {
                     return false;
                 }
-                this.firstTurn = false;
-                return true;
+                if (this.kingIsSave(x, y, board)) {
+                    this.firstTurn = false;
+                    return true;
+                }
             }
         }
         if (!this.white) {
             if (y - this.matrixPosition.y == 1) {
-                return true;
+                if (this.kingIsSave(x, y, board)) {
+                    return true;
+                }
             }
             if (this.firstTurn && y - this.matrixPosition.y == 2) {
                 if (this.moveTroughPieces(x, y, board)) {
                     return false;
                 }
-                this.firstTurn = false;
-                return true;
+                if (this.kingIsSave(x, y, board)) {
+                    this.firstTurn = false;
+                    return true;
+                }
             }
         }
         return false;
@@ -597,7 +593,7 @@ export class Pawn extends Piece {
                 } else {
                     y = this.matrixPosition.y + 1;
                 }
-                piece = board.getPieceAt(x,y);
+                piece = board.getPieceAt(x, y);
                 if (piece != null) {
                     if (this.white != piece.white) {
                         moves.push(createVector(x, y));
