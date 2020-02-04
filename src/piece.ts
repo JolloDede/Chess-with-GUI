@@ -8,18 +8,13 @@ export abstract class Piece {
     taken: boolean;
     white: boolean;
     letter: string;
-    pic?: HTMLImageElement;
     movingThisPiece: boolean;
     value: number;
     kind: string;
-    static images: HTMLImageElement[];
+
     constructor(x: number, y: number, isWhite: boolean, letter: string) {
         this.matrixPosition = createVector(x, y);
-        // pixelPositon for Text
-        // this.pixelPositon = createVector(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2 + 10);
-        // pixelPositon for Images
         this.pixelPositon = createVector(x * tileSize, y * tileSize);
-
         this.taken = false;
         this.white = isWhite;
         this.letter = letter;
@@ -62,19 +57,22 @@ export abstract class Piece {
     }
 
     moveTroughPieces(x: number, y: number, board: Board): boolean {
-        var stepDirectionX = x - this.matrixPosition.x;
+        let stepDirectionX, stepDirectionY: number;
+        let tempPos: IVector;
+
+        stepDirectionX = x - this.matrixPosition.x;
         if (stepDirectionX > 0) {
             stepDirectionX = 1;
         } else if (stepDirectionX < 0) {
             stepDirectionX = -1;
         }
-        var stepDirectionY = y - this.matrixPosition.y;
+        stepDirectionY = y - this.matrixPosition.y;
         if (stepDirectionY > 0) {
             stepDirectionY = 1;
         } else if (stepDirectionY < 0) {
             stepDirectionY = -1;
         }
-        var tempPos = createVector(this.matrixPosition.x, this.matrixPosition.y);
+        tempPos = createVector(this.matrixPosition.x, this.matrixPosition.y);
         tempPos.x += stepDirectionX;
         tempPos.y += stepDirectionY;
         while (tempPos.x != x || tempPos.y != y) {
@@ -116,6 +114,7 @@ export abstract class Piece {
 export class King extends Piece {
     firstTurn: boolean;
     gotAttacked: boolean;
+
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "K");
         this.firstTurn = true;
@@ -154,11 +153,13 @@ export class King extends Piece {
     }
 
     generateMoves(board: Board): IVector[] {
-        var moves = [];
+        let moves: IVector[] = [];
+        let x, y: number;
+
         for (var i = -1; i < 2; i++) {
             for (var j = -1; j < 2; j++) {
-                var x = this.matrixPosition.x + i;
-                var y = this.matrixPosition.y + j;
+                x = this.matrixPosition.x + i;
+                y = this.matrixPosition.y + j;
                 if (this.withinBounds(x, y)) {
                     if (!this.attackingAllies(x, y, board)) {
                         moves.push(createVector(x, y));
@@ -170,7 +171,9 @@ export class King extends Piece {
     }
 
     clone(): King {
-        var cloneKing = new King(this.matrixPosition.x, this.matrixPosition.y, this.white);
+        let cloneKing: King;
+
+        cloneKing = new King(this.matrixPosition.x, this.matrixPosition.y, this.white);
         cloneKing.taken = this.taken;
         return cloneKing;
     }
@@ -246,14 +249,16 @@ export class Queen extends Piece {
     }
 
     generateMoves(board: Board): IVector[] {
-        var moves: IVector[] = [];
+        let moves: IVector[] = [];
+        let x, y: number;
+
         if (this.taken) {
             return [];
         }
         // Horizontal
         for (var i = 0; i < 8; i++) {
-            var x: number = i;
-            var y: number = this.matrixPosition.y;
+            x = i;
+            y = this.matrixPosition.y;
             if (x != this.matrixPosition.x) {
                 if (!this.attackingAllies(x, y, board)) {
                     if (!this.moveTroughPieces(x, y, board)) {
@@ -307,7 +312,9 @@ export class Queen extends Piece {
     }
 
     clone(): Queen {
-        var cloneQueen = new Queen(this.matrixPosition.x, this.matrixPosition.y, this.white);
+        let cloneQueen: Queen;
+
+        cloneQueen = new Queen(this.matrixPosition.x, this.matrixPosition.y, this.white);
         cloneQueen.taken = this.taken;
         return cloneQueen;
     }
@@ -316,6 +323,7 @@ export class Queen extends Piece {
 
 export class Rook extends Piece {
     firstTurn: boolean;
+
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "R");
         this.firstTurn = true;
@@ -343,13 +351,15 @@ export class Rook extends Piece {
     }
 
     generateMoves(board: Board): IVector[] {
-        var moves: IVector[] = [];
+        let moves: IVector[] = [];
+        let x, y: number;
+
         if (this.taken) {
             return [];
         }
         for (var i = 0; i < 8; i++) {
-            var x: number = i;
-            var y: number = this.matrixPosition.y;
+            x = i;
+            y = this.matrixPosition.y;
             if (i != this.matrixPosition.x) {
                 if (!this.attackingAllies(x, y, board)) {
                     if (!this.moveTroughPieces(x, y, board)) {
@@ -407,13 +417,15 @@ export class Bishop extends Piece {
     }
 
     generateMoves(board: Board): IVector[] {
-        var moves: IVector[] = [];
+        let moves: IVector[] = [];
+        let x, y: number;
+
         if (this.taken) {
             return [];
         }
         for (var i = 7; i >= 0; i--) {
-            var x = i;
-            var y = this.matrixPosition.y + this.matrixPosition.x - i;
+            x = i;
+            y = this.matrixPosition.y + this.matrixPosition.x - i;
             if (i != this.matrixPosition.x) {
                 if (this.withinBounds(x, y)) {
                     if (!this.attackingAllies(x, y, board)) {
@@ -426,8 +438,8 @@ export class Bishop extends Piece {
         }
 
         for (var i = 0; i < 8; i++) {
-            var x = this.matrixPosition.x - (this.matrixPosition.y - i);
-            var y = i;
+            x = this.matrixPosition.x - (this.matrixPosition.y - i);
+            y = i;
             if (i != this.matrixPosition.y) {
                 if (this.withinBounds(x, y)) {
                     if (!this.attackingAllies(x, y, board)) {
@@ -473,14 +485,16 @@ export class Knigth extends Piece {
     }
 
     generateMoves(board: Board): IVector[] {
-        var moves: IVector[] = [];
+        let moves: IVector[] = [];
+        let x, y: number;
+
         if (this.taken) {
             return [];
         }
         for (var i = -2; i < 3; i += 4) {
             for (var j = -1; j < 2; j += 2) {
-                var x = this.matrixPosition.x + i;
-                var y = this.matrixPosition.y + j;
+                x = this.matrixPosition.x + i;
+                y = this.matrixPosition.y + j;
                 if (this.withinBounds(x, y)) {
                     if (!this.attackingAllies(x, y, board)) {
                         moves.push(createVector(x, y));
@@ -491,8 +505,8 @@ export class Knigth extends Piece {
 
         for (var i = -1; i < 2; i += 2) {
             for (var j = -2; j < 3; j += 4) {
-                var x = this.matrixPosition.x + i;
-                var y = this.matrixPosition.y + j;
+                x = this.matrixPosition.x + i;
+                y = this.matrixPosition.y + j;
                 if (this.withinBounds(x, y)) {
                     if (!this.attackingAllies(x, y, board)) {
                         moves.push(createVector(x, y));
@@ -513,6 +527,7 @@ export class Knigth extends Piece {
 
 export class Pawn extends Piece {
     firstTurn: boolean;
+
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "P");
         this.firstTurn = true;
@@ -577,9 +592,9 @@ export class Pawn extends Piece {
     }
 
     generateMoves(board: Board): IVector[] {
-        var moves: IVector[] = [];
-        var x: number;
-        var y: number;
+        let moves: IVector[] = [];
+        let x: number;
+        let y: number;
         let piece: Piece | null;
 
         if (this.taken) {
