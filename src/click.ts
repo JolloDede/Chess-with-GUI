@@ -64,7 +64,7 @@ function canvasClick() {
             if ((movingPiece as Piece).canMove(x, y, board)) {
                 piece = board.getPieceAt(x, y);
                 if (piece != null) {
-                    app.getGame().countPiecesDefeated(piece.kind, piece.white);
+                    app.getGame().countPiecesDefeated(piece.letter, piece.white);
                 }
                 app.getGame().gameLog((movingPiece as Piece), { x: x, y: y });
                 (movingPiece as Piece).move(x, y, board);
@@ -72,7 +72,7 @@ function canvasClick() {
                 app.getGame().gameLog(board.getPieceAt(move.from.x, move.from.y) as Piece, move.to);
                 piece = board.getPieceAt(move.to.x, move.to.y);
                 if (piece != null) {
-                    app.getGame().countPiecesDefeated(piece.kind, piece.white);
+                    app.getGame().countPiecesDefeated(piece.letter, piece.white);
                 }
                 AI.makeMove(move.from, move.to);
                 board.showScore();

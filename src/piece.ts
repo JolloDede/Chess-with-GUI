@@ -1,26 +1,20 @@
 import { IVector, createVector } from "./interface";
 import { Board } from "./board";
-import { tileSize } from "./game";
 
 export abstract class Piece {
     matrixPosition: IVector;
-    pixelPositon: IVector;
     taken: boolean;
     white: boolean;
     letter: string;
     movingThisPiece: boolean;
     value: number;
-    kind: string;
-
     constructor(x: number, y: number, isWhite: boolean, letter: string) {
         this.matrixPosition = createVector(x, y);
-        this.pixelPositon = createVector(x * tileSize, y * tileSize);
         this.taken = false;
         this.white = isWhite;
         this.letter = letter;
         this.movingThisPiece = false;
         this.value = 0;
-        this.kind = "";
     }
 
     move(x: number, y: number, board: Board): void {
@@ -32,9 +26,8 @@ export abstract class Piece {
                 attacking.taken = true;
             }
         }
-        // console.log("Move "+this.kind+" from "+x+" to "+y);
+        // console.log("Move "+this.letter+" from "+x+" to "+y);
         this.matrixPosition = createVector(x, y);
-        this.pixelPositon = createVector(x * tileSize, y * tileSize);
     }
 
     withinBounds(x: number, y: number): boolean {
@@ -90,7 +83,6 @@ export abstract class Piece {
 
     setNewLocation(x: number, y: number): void {
         this.matrixPosition = createVector(x, y);
-        this.pixelPositon = createVector(x * tileSize, y * tileSize);
     }
 
     kingIsSave(x: number, y: number, board: Board): boolean {
@@ -120,7 +112,6 @@ export class King extends Piece {
         this.firstTurn = true;
         this.gotAttacked = false;
         this.value = 99;
-        this.kind = "King";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
@@ -219,7 +210,6 @@ export class Queen extends Piece {
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "Q");
         this.value = 9;
-        this.kind = "Queen";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
@@ -328,7 +318,6 @@ export class Rook extends Piece {
         super(x, y, isWhite, "R");
         this.firstTurn = true;
         this.value = 5;
-        this.kind = "Rook";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
@@ -395,7 +384,6 @@ export class Bishop extends Piece {
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "B");
         this.value = 3;
-        this.kind = "Bishop";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
@@ -465,7 +453,6 @@ export class Knigth extends Piece {
     constructor(x: number, y: number, isWhite: boolean) {
         super(x, y, isWhite, "N");
         this.value = 3;
-        this.kind = "Knigth";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
@@ -532,7 +519,6 @@ export class Pawn extends Piece {
         super(x, y, isWhite, "P");
         this.firstTurn = true;
         this.value = 1;
-        this.kind = "Pawn";
     }
 
     canMove(x: number, y: number, board: Board): boolean {
