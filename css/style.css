@@ -15,7 +15,7 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
-main{
+main {
     text-align: center;
     height: fit-content;
 }
@@ -38,21 +38,21 @@ button:hover {
 }
 
 button:focus {
-    outline: 0; 
+    outline: 0;
 }
 
 .container {
     margin: 0;
 }
 
-header{
+header {
     background-color: #E5D5C5;
     top: 0;
     height: 100px;
     width: 100%;
 }
 
-header h1{
+header h1 {
     width: 80%;
     margin: 0;
     margin-left: auto;
@@ -89,7 +89,7 @@ header h1{
     padding: 10px;
     background-color: var(--ctx--overlay-bg-color);
     width: 350px;
-    margin-left: auto; 
+    margin-left: auto;
     margin-right: auto;
     left: 0;
     right: 0;
@@ -118,7 +118,7 @@ header h1{
     border-color: red;
 }
 
-#canvas-overlay-container button{
+#canvas-overlay-container button {
     background-image: none;
     background-color: inherit;
     color: black;
@@ -135,7 +135,7 @@ input[name="color"] {
     background-color: #D2A83C;
 }
 
-#start:hover{
+#start:hover {
     border-color: red;
 }
 
@@ -208,11 +208,11 @@ input[name="color"] {
     right: 0;
 }
 
-#menu-button-wrapper > ul{
+#menu-button-wrapper>ul {
     list-style: none;
 }
 
-#menu-button-wrapper > ul > li > button{
+#menu-button-wrapper>ul>li>button {
     background-image: url("../assets/Wood_Button_Background.jpg");
     background-color: black;
     width: 100%;
@@ -225,11 +225,11 @@ input[name="color"] {
 
 /* Score Board */
 
-.score-black-wrapper{
+.score-black-wrapper {
     margin-top: 10px;
 }
 
-.score-white-wrapper{
+.score-white-wrapper {
     margin-top: 10px;
 }
 
@@ -247,7 +247,7 @@ input[name="color"] {
     padding-right: 10px;
 } */
 
-td > img{
+td>img {
     width: 40px;
 }
 
@@ -256,6 +256,7 @@ hr {
     margin-top: 10px;
     margin-bottom: 20px;
 }
+
 /* End Score Board */
 /* Gamelog */
 
@@ -276,10 +277,11 @@ hr {
     height: 40%;
     resize: none;
 }
+
 /* End of Gamelog */
 /* Introduction */
 
-#introcution-content{
+#introcution-content {
     display: none;
     width: 60%;
     margin-left: auto;
@@ -294,4 +296,15 @@ hr {
     float: left;
 }
 
+.piece-wrapper {
+    display: block;
+    height: fit-content;
+    margin: 10px;
+}
+
 /* End Introduction */
+/* Credits */
+
+#credits-content {
+    display: none;
+}

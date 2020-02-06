@@ -12,6 +12,7 @@ document.getElementById("start")!.onclick = function () { startButtonClick() }
 
 document.getElementById("new-game")!.onclick = function () { newGameButtonClick() }
 document.getElementById("introduction")!.onclick = function () { introductionButtonCLick() }
+document.getElementById("credits")!.onclick = function () { creditsButtonCLick() }
 
 window.onkeydown = function (event: KeyboardEvent) { enterClick(event) }
 
@@ -175,4 +176,11 @@ function introductionButtonCLick() {
     document.getElementById("game-log")!.style.display = "none";
     document.getElementById("game-content")!.style.display = "none";
     document.getElementById("introcution-content")!.style.display = "block";
+}
+
+function creditsButtonCLick(){
+    document.getElementById("game-sitepanel")!.style.display = "none";
+    document.getElementById("game-log")!.style.display = "none";
+    document.getElementById("game-content")!.style.display = "none";
+    document.getElementById("credits-content")!.style.display = "block";
 }
