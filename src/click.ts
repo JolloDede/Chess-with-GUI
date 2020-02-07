@@ -2,7 +2,7 @@ import { App, board } from "./main";
 import Game, { tileSize } from "./game";
 import { Piece, King } from "./piece";
 import { RandomAI, MinimaxAI } from "./AI";
-import { IMove } from "./interface";
+import { IMove, IVector } from "./interface";
 
 document.getElementById("back")!.onclick = function () { backButtonClick() }
 document.getElementById("advance")!.onclick = function () { advanceButtonClick() }
@@ -30,6 +30,9 @@ var AI: RandomAI | MinimaxAI;
 var color: string;
 var app: App;
 
+var body: HTMLBodyElement = document.getElementsByTagName("body")[0];
+var moveBackHistory: IMove[];
+
 
 function enterClick(event: KeyboardEvent) {
     if (event.keyCode == 13) {
@@ -44,6 +47,8 @@ function canvasClick() {
     let y: number;
     let piece: Piece | null;
     let move: IMove;
+
+    moveBackHistory = [];
 
     x = Math.floor(mouseX / tileSize);
     y = Math.floor(mouseY / tileSize);
@@ -67,8 +72,12 @@ function canvasClick() {
                     app.getGame().countPiecesDefeated(piece.letter, piece.white);
                 }
                 app.getGame().gameLog((movingPiece as Piece), { x: x, y: y });
+                // doesnt work
+                body.classList.add("waiting");
                 (movingPiece as Piece).move(x, y, board);
                 move = AI.decideMove();
+                // doesnt work
+                body.classList.remove("waiting");
                 app.getGame().gameLog(board.getPieceAt(move.from.x, move.from.y) as Piece, move.to);
                 piece = board.getPieceAt(move.to.x, move.to.y);
                 if (piece != null) {
@@ -90,11 +99,55 @@ function canvasClick() {
 }
 
 function backButtonClick() {
+    let gamelog: HTMLTextAreaElement;
+    let text, moveTxt: string;
+    let indexOfNewline: number;
+    let move: IMove;
 
+    gamelog = document.getElementById("game-log-text") as HTMLTextAreaElement;
+    text = gamelog.value;
+    indexOfNewline = text.indexOf("\n");
+    moveTxt = text.substr(0, indexOfNewline);
+    move = decodeMove(moveTxt);
+    moveBackHistory.push(move);
+    board.movePiece(move.from, move.to);
+    text = text.substring(indexOfNewline + 1);
+    gamelog.value = text;
+
+    indexOfNewline = text.indexOf("\n");
+    moveTxt = text.substr(0, indexOfNewline);
+    move = decodeMove(moveTxt);
+    moveBackHistory.push(move);
+    board.movePiece(move.from, move.to);
+    text = text.substring(indexOfNewline + 1);
+    gamelog.value = text;
 }
 
-function advanceButtonClick() {
+function decodeMove(text: string): IMove {
+    let pieceLetter: string;
+    let numberXF, numberXT: number;
 
+    pieceLetter = text.substr(0, 1);
+    numberXF = text.substr(1, 2).charCodeAt(0) - 65;
+    numberXT = text.substr(4, 5).charCodeAt(0) - 65;
+    return { from: { x: numberXT, y: 8 - Number(text.substr(5, 6)) } as IVector, to: { x: numberXF, y: 8 - Number(text.substr(2, 1)) } as IVector } as IMove;
+}
+
+function advanceButtonClick(): void {
+    let move: IMove;
+    let piece: Piece;
+
+    if(moveBackHistory.length != 0){
+        move = moveBackHistory.pop() as IMove;
+        piece = board.getPieceAt(move.to.x, move.to.y) as Piece;
+        app.getGame().gameLog(piece, move.from);
+        piece.move(move.from.x, move.from.y, board);
+
+        move = moveBackHistory.pop() as IMove;
+        piece = board.getPieceAt(move.to.x, move.to.y) as Piece;
+        app.getGame().gameLog(piece, move.from);
+        piece.move(move.from.x, move.from.y, board);
+    }
 }
 
 function soundButtonClick() {
@@ -178,7 +231,7 @@ function introductionButtonCLick() {
     document.getElementById("introcution-content")!.style.display = "block";
 }
 
-function creditsButtonCLick(){
+function creditsButtonCLick() {
     document.getElementById("game-sitepanel")!.style.display = "none";
     document.getElementById("game-log")!.style.display = "none";
     document.getElementById("game-content")!.style.display = "none";

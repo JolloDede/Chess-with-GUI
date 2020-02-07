@@ -45,7 +45,7 @@ export class Board {
     }
 
     getPieceAt(x: number, y: number): Piece | null {
-        for (let i = 0; i < 16; i++) {
+        for (let i = 0; i < this.whitePieces.length-1; i++) {
             if (!this.whitePieces[i].taken && this.whitePieces[i].matrixPosition.x == x && this.whitePieces[i].matrixPosition.y == y) {
                 return this.whitePieces[i];
             }

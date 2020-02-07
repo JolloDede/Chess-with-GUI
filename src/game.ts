@@ -77,7 +77,7 @@ export default class Game {
         let logTextEl: HTMLTextAreaElement;
 
         logTextEl = document.getElementById("game-log-text") as HTMLTextAreaElement;
-        logTextEl.value = piece.letter + String.fromCharCode(piece.matrixPosition.x + 65) + (8 - piece.matrixPosition.y) + "-" + String.fromCharCode(to.x + 65) + (8 - to.y) + "\n" + logTextEl.value;
+        logTextEl.value = piece.letter + String.fromCharCode(piece.matrixPosition.x + 65) + (8 - piece.matrixPosition.y) + " " + String.fromCharCode(to.x + 65) + (8 - to.y) + "\n" + logTextEl.value;
     }
 
     private showPieces(): void {

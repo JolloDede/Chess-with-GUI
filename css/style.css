@@ -15,6 +15,10 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.waiting{
+    cursor: progress;
+}
+
 main {
     text-align: center;
     height: fit-content;
@@ -174,6 +178,13 @@ input[name="color"] {
     width: 640px;
     height: 10px;
     margin-bottom: 10px;
+    font-weight: bolder;
+}
+
+#game-button-wrapper :hover {
+    color: gray;
+    cursor:pointer;
+    user-select: none;
 }
 
 #back {
@@ -292,7 +303,7 @@ hr {
 }
 
 .intro-img {
-    width: 20%;
+    width: 80px;
     float: left;
 }
 
