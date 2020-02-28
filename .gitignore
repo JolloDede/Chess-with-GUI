@@ -3,3 +3,5 @@
 node_modules
 # generated Code
 # dist
+# VSCode Lines Counter
+.VSCodeCounter
